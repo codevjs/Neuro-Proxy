@@ -5,8 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -57,8 +56,6 @@ model User {
   roleName      String?   @map("role_name")
   accounts      Account[]
   sessions      Session[]
-  company       Company?  @relation(fields: [companyId], references: [id])
-  companyId     String?   @map("company_id")
 
   @@map("user")
 }
@@ -126,9 +123,9 @@ model BasicAuth {
 }
 
 model Token {
-  id String @id @default(cuid())
+  id    String  @id @default(cuid())
   token String? @unique
-  name String?
+  name  String?
 
   @@map("token")
 }
@@ -140,9 +137,9 @@ model StripPrefix {
 }
 
 model IPWhitelist {
-  id String @id @default(cuid())
+  id   String  @id @default(cuid())
   name String?
-  ip String? @unique
+  ip   String? @unique
 
   @@map("ip_whitelist")
 }
@@ -157,14 +154,4 @@ model Container {
   id String @id @default(cuid())
 
   @@map("container")
-}
-
-model Company {
-  id         String  @id @default(cuid())
-  uid        String  @unique @map("uid")
-  name       String  @unique
-  oracleName String?
-  user       User[]
-
-  @@map("companies")
 }

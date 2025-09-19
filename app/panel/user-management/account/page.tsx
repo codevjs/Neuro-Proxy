@@ -1,6 +1,6 @@
 import {Metadata} from 'next';
 
-import {getAllRoleAction, getCompanies} from './_action/action';
+import {getAllRoleAction} from './_action/action';
 import Table from './table';
 
 import {siteConfig} from '@/config/site';
@@ -18,7 +18,6 @@ export const metadata: Metadata = {
 
 const Page = async () => {
     const role = await getAllRoleAction();
-    const companies = await getCompanies();
 
     return (
         <div className='flex h-full w-full flex-col gap-y-6'>
@@ -27,10 +26,7 @@ const Page = async () => {
                 <p className='text-sm text-default-500'>Manage all account user.</p>
             </div>
 
-            <Table
-                company={companies.data?.data ?? []}
-                roles={role.data?.data ?? []}
-            />
+            <Table roles={role.data?.data ?? []} />
         </div>
     );
 };

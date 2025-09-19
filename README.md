@@ -36,13 +36,6 @@
 - **Custom Headers**: Add authentication tokens and custom HTTP headers
 - **Multi-environment Support**: Works on localhost, HTTP, and HTTPS environments
 
-### ⚡ **Manual Scaling System**
-- **Horizontal Scaling**: Scale services up/down with load balancing
-- **Container Replication**: Duplicate containers automatically
-- **Load Balancer Updates**: Automatic Traefik load balancer configuration
-- **Scaling History**: Track scaling operations and replica status
-- **Resource Management**: Monitor scaled service performance
-
 ### 🔐 **Security & Authentication**
 - **Role-Based Access Control (RBAC)**: Granular permissions system
 - **JWT Authentication**: Secure session management with NextAuth.js
@@ -140,7 +133,6 @@ NEXTAUTH_URL="http://localhost:3000"
 
 # Traefik API Configuration
 TRAEFIK_API_URL="http://localhost:8080"
-TRAEFIK_API_KEY="base64-encoded-basic-auth"
 
 # Docker Configuration (if using remote Docker)
 DOCKER_HOST="unix:///var/run/docker.sock"
@@ -165,7 +157,6 @@ services:
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
       - TRAEFIK_API_URL=${TRAEFIK_API_URL}
-      - TRAEFIK_API_KEY=${TRAEFIK_API_KEY}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - database_volume:/app/prisma/db
@@ -175,45 +166,6 @@ services:
 volumes:
   database_volume:
   traefik_volume:
-```
-
-## 📚 Documentation
-
-### API Endpoints
-
-#### Authentication
-```http
-POST /api/auth/signin    # User login
-POST /api/auth/signout   # User logout
-GET  /api/auth/session   # Get current session
-```
-
-#### Container Management
-```http
-GET    /api/containers              # List all containers
-GET    /api/containers/:id          # Get container details
-POST   /api/containers/:id/start    # Start container
-POST   /api/containers/:id/stop     # Stop container
-POST   /api/containers/:id/restart  # Restart container
-DELETE /api/containers/:id          # Remove container
-```
-
-#### Traefik Management
-```http
-GET    /api/traefik/routers         # List routers
-POST   /api/traefik/routers         # Create router
-PUT    /api/traefik/routers/:name   # Update router
-DELETE /api/traefik/routers/:name   # Delete router
-
-GET    /api/traefik/services        # List services
-GET    /api/traefik/middlewares     # List middlewares
-```
-
-#### Scaling Operations
-```http
-POST   /api/scaling/up/:service     # Scale up service
-POST   /api/scaling/down/:service   # Scale down service
-GET    /api/scaling/status          # Get scaling status
 ```
 
 ### Configuration Files

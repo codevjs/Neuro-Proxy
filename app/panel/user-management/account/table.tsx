@@ -10,7 +10,7 @@ import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from '@heroui/
 import {Controller, useWatch} from 'react-hook-form';
 import {Autocomplete, AutocompleteItem} from '@heroui/autocomplete';
 import {User} from '@heroui/user';
-import {Prisma, Role, User as UserType, Company} from '@prisma/client';
+import {Prisma, Role, User as UserType} from '@prisma/client';
 
 import useUser from './_hook/user.hook';
 
@@ -29,22 +29,15 @@ interface Props {
         createdAt: Date;
         updatedAt: Date;
     }[];
-    company: {
-        id: string;
-        uid: string;
-        name: string;
-        oracleName?: string | null;
-    }[];
 }
 
-const TableUser: FC<Props> = ({roles, company}) => {
+const TableUser: FC<Props> = ({roles}) => {
     const {list, control, formState, isOpen, meta, onDelete, onSubmit, setValue, handleSubmit, reset, onOpen, onOpenChange} = useUser();
 
     const renderCell = useCallback(
         (
             user: UserType & {
                 role: Role;
-                company: Company;
             },
             columnKey: React.Key
         ) => {
@@ -66,12 +59,6 @@ const TableUser: FC<Props> = ({roles, company}) => {
                         <div className='flex flex-col'>
                             <p className='text-bold text-sm capitalize'>{user.role?.name ?? '-'}</p>
                             <p className='text-bold text-xs capitalize text-default-400'>{user.role?.description ?? '-'}</p>
-                        </div>
-                    );
-                case 'company':
-                    return (
-                        <div className='flex flex-col'>
-                            <p className='text-bold text-sm capitalize'>{user.company?.oracleName ?? '-'}</p>
                         </div>
                     );
                 case 'action':
@@ -187,7 +174,6 @@ const TableUser: FC<Props> = ({roles, company}) => {
                     columns={[
                         {name: 'Name', id: 'name', allowSorting: true},
                         {name: 'Role', id: 'role'},
-                        {name: 'Company', id: 'company'},
                         {name: '', id: 'action'},
                     ]}
                 >
@@ -204,7 +190,7 @@ const TableUser: FC<Props> = ({roles, company}) => {
                 </TableHeader>
                 <TableBody
                     emptyContent={'No rows to display.'}
-                    items={list.items as (UserType & {role: Role; company: Company})[]}
+                    items={list.items as (UserType & {role: Role})[]}
                     loadingContent={<Loading />}
                     loadingState={list.loadingState}
                 >
@@ -329,28 +315,6 @@ const TableUser: FC<Props> = ({roles, company}) => {
                                             />
                                         )}
                                         rules={{required: !id ? 'Password is required' : false}}
-                                    />
-
-                                    <Controller
-                                        control={control}
-                                        name='company'
-                                        render={({field, fieldState}) => (
-                                            <Autocomplete
-                                                ref={field.ref}
-                                                color='primary'
-                                                isClearable={false}
-                                                isRequired={false}
-                                                label='company'
-                                                placeholder='Please select user company'
-                                                selectedKey={field.value}
-                                                variant='underlined'
-                                                onSelectionChange={field.onChange}
-                                            >
-                                                {company.map((comp) => (
-                                                    <AutocompleteItem key={comp.id}>{comp.oracleName}</AutocompleteItem>
-                                                ))}
-                                            </Autocomplete>
-                                        )}
                                     />
                                 </ModalBody>
                                 <ModalFooter>
