@@ -1,11 +1,11 @@
 'use server';
 
-import {ForbiddenError} from '@casl/ability';
+import { ForbiddenError } from '@casl/ability';
 import axios from 'axios';
 
 import container from '@/server-container';
-import {checkAbility} from '@/libs/casl-ability.lib';
-import {TraefikAPIRepository} from '@/repositories/api/traefik/traefik.api';
+import { checkAbility } from '@/libs/casl-ability.lib';
+import { TraefikAPIRepository } from '@/repositories/api/traefik/traefik.api';
 
 const traefikAPIRepository = container.resolve(TraefikAPIRepository);
 
@@ -17,7 +17,7 @@ interface ServiceHealthStatus {
     };
 }
 
-async function checkServiceHealth(url: string): Promise<{status: 'up' | 'down' | 'unknown'; responseTime?: number}> {
+async function checkServiceHealth(url: string): Promise<{ status: 'up' | 'down' | 'unknown'; responseTime?: number }> {
     const startTime = Date.now();
 
     try {
@@ -28,7 +28,7 @@ async function checkServiceHealth(url: string): Promise<{status: 'up' | 'down' |
             timeout: 3000,
             validateStatus: () => true,
             headers: {
-                'User-Agent': 'Kalla-Proxy-Health-Check',
+                'User-Agent': 'Neuro-Proxy-Health-Check',
             },
         });
 
@@ -44,11 +44,11 @@ async function checkServiceHealth(url: string): Promise<{status: 'up' | 'down' |
     }
 }
 
-export const getAllServiceAction = async (options?: {page?: number; limit?: number; search?: string; includeHealth?: boolean}) => {
+export const getAllServiceAction = async (options?: { page?: number; limit?: number; search?: string; includeHealth?: boolean }) => {
     try {
         await checkAbility('read', 'Service');
 
-        const {page = 1, limit = 15, search = '', includeHealth = false} = options || {};
+        const { page = 1, limit = 15, search = '', includeHealth = false } = options || {};
 
         const data = await traefikAPIRepository.getAllServices();
 
@@ -88,7 +88,7 @@ export const getAllServiceAction = async (options?: {page?: number; limit?: numb
 
             servicesWithHealth = paginatedData.map((service) => ({
                 ...service,
-                health: healthChecks[service.name] || {status: 'unknown', lastCheck: new Date().toISOString()},
+                health: healthChecks[service.name] || { status: 'unknown', lastCheck: new Date().toISOString() },
             }));
         }
 

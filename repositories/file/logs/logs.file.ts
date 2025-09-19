@@ -1,9 +1,9 @@
 import fs from 'fs';
 import readline from 'readline';
 
-import {singleton} from 'tsyringe';
+import { singleton } from 'tsyringe';
 
-import {ITreafikLogs} from './logs.file.interface';
+import { ITreafikLogs } from './logs.file.interface';
 
 @singleton()
 export class TreafikLogsRepository {
@@ -20,14 +20,14 @@ export class TreafikLogsRepository {
         }
 
         const fileStream = fs.createReadStream(this.TREAFIK_LOGS);
-        const rl = readline.createInterface({input: fileStream, crlfDelay: Infinity});
+        const rl = readline.createInterface({ input: fileStream, crlfDelay: Infinity });
 
         for await (const line of rl) {
             try {
                 const logEntry = JSON.parse(line);
 
-                // Skip logs from kalla_proxy_dashboard@file router
-                if (logEntry.RouterName === 'kalla_proxy_dashboard@file' || logEntry.service === 'http://localhost:3000') {
+                // Skip logs from neuro_proxy_dashboard@file router
+                if (logEntry.RouterName === 'neuro_proxy_dashboard@file' || logEntry.service === 'http://localhost:3000') {
                     continue;
                 }
 

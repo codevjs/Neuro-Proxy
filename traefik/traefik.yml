@@ -1,5 +1,5 @@
 # Traefik main configuration file
-# This file configures Traefik proxy for Kalla Integration Dashboard
+# This file configures Traefik proxy for Neuro Integration Dashboard
 
 # API and Dashboard configuration - Internal only
 api:

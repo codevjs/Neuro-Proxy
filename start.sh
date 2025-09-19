@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Startup script for Traefik + Dashboard integration
-echo "🚀 Starting Kalla Proxy (Traefik + Dashboard)..."
+echo "🚀 Starting Neuro Proxy (Traefik + Dashboard)..."
 
 # Function to handle graceful shutdown
 cleanup() {
@@ -89,7 +89,7 @@ for i in $(seq 1 60); do
 done
 
 echo ""
-echo "🎉 Kalla Proxy is running!"
+echo "🎉 Neuro Proxy is running!"
 echo "   🌐 Traefik Proxy: http://localhost:80"
 echo "   📊 Traefik Dashboard: http://localhost:8080"
 echo "   🎛️  Management Dashboard: http://localhost:3000"

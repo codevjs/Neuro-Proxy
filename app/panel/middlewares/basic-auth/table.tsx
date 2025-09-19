@@ -1,24 +1,24 @@
 'use client';
 
-import {PlusIcon, SearchIcon, Trash2} from 'lucide-react';
-import {Input} from '@heroui/input';
+import { PlusIcon, SearchIcon, Trash2 } from 'lucide-react';
+import { Input } from '@heroui/input';
 // import {SearchIcon} from '@/components/icons';
-import {Button} from '@heroui/button';
-import {FC, useCallback} from 'react';
-import {Tooltip} from '@heroui/tooltip';
-import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
-import {Session} from 'next-auth';
-import {Chip} from '@heroui/chip';
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from '@heroui/modal';
-import {Controller} from 'react-hook-form';
+import { Button } from '@heroui/button';
+import { FC, useCallback } from 'react';
+import { Tooltip } from '@heroui/tooltip';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table';
+import { Session } from 'next-auth';
+import { Chip } from '@heroui/chip';
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/modal';
+import { Controller } from 'react-hook-form';
 import Link from 'next/link';
 
 import useBasicAuthMiddleware from './_hook/basic-auth.hook';
 
-import {IBasicAuthMiddleware} from '@/repositories/file/traefik/treafik.file.interface';
+import { IBasicAuthMiddleware } from '@/repositories/file/traefik/treafik.file.interface';
 import AlertDialog from '@/components/alert-dialog';
 import Loading from '@/components/loading';
-import {Can} from '@/contexts/casl.context';
+import { Can } from '@/contexts/casl.context';
 import Pagination from '@/components/pagination';
 
 interface Props {
@@ -26,9 +26,9 @@ interface Props {
 }
 
 const TableBasicAuth: FC<Props> = () => {
-    const {list, meta, control, formState, isOpen, handleSubmit, reset, onOpen, onOpenChange, onSubmit, onDelete} = useBasicAuthMiddleware();
+    const { list, meta, control, formState, isOpen, handleSubmit, reset, onOpen, onOpenChange, onSubmit, onDelete } = useBasicAuthMiddleware();
 
-    const renderCell = useCallback((data: IBasicAuthMiddleware & {name: string}, columnKey: React.Key): React.ReactElement => {
+    const renderCell = useCallback((data: IBasicAuthMiddleware & { name: string }, columnKey: React.Key): React.ReactElement => {
         switch (columnKey) {
             case 'middlewareName':
                 return (
@@ -71,7 +71,7 @@ const TableBasicAuth: FC<Props> = () => {
                             trigger={
                                 <Button
                                     color='danger'
-                                    isDisabled={data.name?.includes('kalla_proxy')}
+                                    isDisabled={data.name?.includes('neuro_proxy')}
                                     isIconOnly={true}
                                     size='sm'
                                     variant='light'
@@ -97,7 +97,7 @@ const TableBasicAuth: FC<Props> = () => {
                 <Input
                     isClearable
                     className='w-full max-w-[230px]'
-                    classNames={{input: 'text-sm'}}
+                    classNames={{ input: 'text-sm' }}
                     labelPlacement='outside'
                     placeholder='Search'
                     radius='full'
@@ -139,10 +139,10 @@ const TableBasicAuth: FC<Props> = () => {
             >
                 <TableHeader
                     columns={[
-                        {name: 'Middleware Name', id: 'middlewareName'},
-                        {name: 'Middleware Key', id: 'middlewareKey'},
-                        {name: 'Users', id: 'user'},
-                        {name: 'Action', id: 'action'},
+                        { name: 'Middleware Name', id: 'middlewareName' },
+                        { name: 'Middleware Key', id: 'middlewareKey' },
+                        { name: 'Users', id: 'user' },
+                        { name: 'Action', id: 'action' },
                     ]}
                 >
                     {(column) => (
@@ -157,7 +157,7 @@ const TableBasicAuth: FC<Props> = () => {
                 </TableHeader>
                 <TableBody
                     emptyContent={'No rows to display.'}
-                    items={list.items as (IBasicAuthMiddleware & {name: string})[]}
+                    items={list.items as (IBasicAuthMiddleware & { name: string })[]}
                     loadingContent={<Loading />}
                     loadingState={list.loadingState}
                 >
@@ -185,7 +185,7 @@ const TableBasicAuth: FC<Props> = () => {
                                         <Controller
                                             control={control}
                                             name='name'
-                                            render={({field, fieldState}) => (
+                                            render={({ field, fieldState }) => (
                                                 <Input
                                                     {...field}
                                                     description="Note: Middleware name must be unique and can't be changed later."
@@ -197,7 +197,7 @@ const TableBasicAuth: FC<Props> = () => {
                                                     value={field.value.replace(/ /g, '_')}
                                                 />
                                             )}
-                                            rules={{required: 'Middleware name is required', validate: (value) => value.trim().length > 0}}
+                                            rules={{ required: 'Middleware name is required', validate: (value) => value.trim().length > 0 }}
                                         />
                                     </div>
                                 </ModalBody>
@@ -232,7 +232,7 @@ const TableBasicAuth: FC<Props> = () => {
                         limit={15}
                         meta={meta}
                         onChange={(page) => {
-                            list.sort({column: `${page}`, direction: `ascending`});
+                            list.sort({ column: `${page}`, direction: `ascending` });
                         }}
                     />
                 </div>

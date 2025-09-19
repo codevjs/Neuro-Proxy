@@ -1,13 +1,13 @@
-import {useAsyncList} from '@react-stately/data';
-import {useDisclosure} from '@heroui/modal';
-import {SubmitHandler, useForm} from 'react-hook-form';
-import {useCallback, useState} from 'react';
-import {PageNumberPagination, PageNumberCounters} from 'prisma-extension-pagination/dist/types';
+import { useAsyncList } from '@react-stately/data';
+import { useDisclosure } from '@heroui/modal';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useCallback, useState } from 'react';
+import { PageNumberPagination, PageNumberCounters } from 'prisma-extension-pagination/dist/types';
 
-import {createRouterAction, deleteRouterAction, getAllRouterAction, updateRouterAction} from '../_action/action';
+import { createRouterAction, deleteRouterAction, getAllRouterAction, updateRouterAction } from '../_action/action';
 
-import {toastError, toastSuccess} from '@/helpers/toast.helper';
-import {asyncListDescriptor} from '@/helpers/async-list-descriptor.helper';
+import { toastError, toastSuccess } from '@/helpers/toast.helper';
+import { asyncListDescriptor } from '@/helpers/async-list-descriptor.helper';
 
 const useRouters = () => {
     const [meta, setMeta] = useState<PageNumberPagination & PageNumberCounters>({
@@ -20,9 +20,9 @@ const useRouters = () => {
         nextPage: null,
     });
 
-    const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
+    const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
-    const {control, formState, setValue, handleSubmit, reset, resetField} = useForm<{
+    const { control, formState, setValue, handleSubmit, reset, resetField } = useForm<{
         isEdit: boolean;
         name: string;
         rule: string;
@@ -41,15 +41,15 @@ const useRouters = () => {
     });
 
     const list = useAsyncList({
-        async load({filterText, sortDescriptor}) {
+        async load({ filterText, sortDescriptor }) {
             const size = 15;
 
-            const {page} = asyncListDescriptor(sortDescriptor);
+            const { page } = asyncListDescriptor(sortDescriptor);
 
             const result = await getAllRouterAction();
 
             const data = (result.data ?? [])
-                .filter((item) => !item.name.includes('kalla_proxy'))
+                .filter((item) => !item.name.includes('neuro_proxy'))
                 .filter((item) => {
                     if (!filterText || filterText === '') return true;
 
@@ -76,23 +76,23 @@ const useRouters = () => {
         },
     });
 
-    const onSubmit: SubmitHandler<{isEdit: boolean; name: string; rule: string; service: string; middlewares: string[]; entrypoints: string[]}> =
+    const onSubmit: SubmitHandler<{ isEdit: boolean; name: string; rule: string; service: string; middlewares: string[]; entrypoints: string[] }> =
         useCallback(
             async (data) => {
                 try {
                     const result = data.isEdit
                         ? await updateRouterAction(data.name, {
-                              rule: data.rule,
-                              service: data.service,
-                              middlewares: data.middlewares,
-                              entryPoints: data.entrypoints,
-                          })
+                            rule: data.rule,
+                            service: data.service,
+                            middlewares: data.middlewares,
+                            entryPoints: data.entrypoints,
+                        })
                         : await createRouterAction(data.name, {
-                              rule: data.rule,
-                              service: data.service,
-                              middlewares: data.middlewares,
-                              entryPoints: data.entrypoints,
-                          });
+                            rule: data.rule,
+                            service: data.service,
+                            middlewares: data.middlewares,
+                            entryPoints: data.entrypoints,
+                        });
 
                     if (!result.success) throw new Error(result.message);
 

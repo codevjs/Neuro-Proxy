@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 const Logo = () => {
     const [environmentMode, setEnvironmentMode] = useState('');
@@ -21,11 +21,11 @@ const Logo = () => {
         <div className='flex items-center gap-2'>
             <img
                 alt='Logo'
-                className='aspect-square w-8'
+                className='aspect-square w-[70px]'
                 src='/logo.svg'
             />
             <div className=''>
-                <h1 className='text-xl'>Kalla Proxy</h1>
+                <h1 className='text-xl'>Neuro Proxy</h1>
                 <p className='text-xs capitalize text-default-500'>{environmentMode}</p>
             </div>
         </div>

@@ -1,6 +1,6 @@
 services:
-    kalla-proxy:
-      container_name: kalla-proxy
+    neuro-proxy:
+      container_name: neuro-proxy
       build:
           context: .
           dockerfile: Dockerfile

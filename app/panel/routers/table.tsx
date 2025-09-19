@@ -1,16 +1,16 @@
 'use client';
 
-import {Input} from '@heroui/input';
-import {FC, useCallback} from 'react';
-import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
-import {Chip} from '@heroui/chip';
-import {PencilIcon, PlusIcon, Trash2} from 'lucide-react';
-import {Button} from '@heroui/button';
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from '@heroui/modal';
-import {Controller, useWatch} from 'react-hook-form';
-import {Tooltip} from '@heroui/tooltip';
-import {Select, SelectItem} from '@heroui/select';
-import {Autocomplete, AutocompleteItem} from '@heroui/autocomplete';
+import { Input } from '@heroui/input';
+import { FC, useCallback } from 'react';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table';
+import { Chip } from '@heroui/chip';
+import { PencilIcon, PlusIcon, Trash2 } from 'lucide-react';
+import { Button } from '@heroui/button';
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/modal';
+import { Controller, useWatch } from 'react-hook-form';
+import { Tooltip } from '@heroui/tooltip';
+import { Select, SelectItem } from '@heroui/select';
+import { Autocomplete, AutocompleteItem } from '@heroui/autocomplete';
 
 import useServices from '../services/_hook/service.hook';
 
@@ -21,12 +21,12 @@ import useEntryPoint from './_hook/entrypoint.hook';
 
 import AlertDialog from '@/components/alert-dialog';
 import Loading from '@/components/loading';
-import {IRouter} from '@/repositories/file/traefik/treafik.file.interface';
-import {Can} from '@/contexts/casl.context';
-import {SearchIcon} from '@/components/icons';
+import { IRouter } from '@/repositories/file/traefik/treafik.file.interface';
+import { Can } from '@/contexts/casl.context';
+import { SearchIcon } from '@/components/icons';
 import Pagination from '@/components/pagination';
 
-interface Props {}
+interface Props { }
 
 const TableService: FC<Props> = () => {
     const routers = useRouters();
@@ -37,7 +37,7 @@ const TableService: FC<Props> = () => {
 
     const entryPoints = useEntryPoint();
 
-    const renderCell = useCallback((data: IRouter & {name: string}, columnKey: React.Key): React.ReactElement => {
+    const renderCell = useCallback((data: IRouter & { name: string }, columnKey: React.Key): React.ReactElement => {
         switch (columnKey) {
             case 'routerName':
                 return (
@@ -94,7 +94,7 @@ const TableService: FC<Props> = () => {
                         >
                             <Button
                                 color='secondary'
-                                isDisabled={data.service?.includes('kalla_proxy_service')}
+                                isDisabled={data.service?.includes('neuro_proxy_service')}
                                 isIconOnly={true}
                                 size='sm'
                                 variant='light'
@@ -127,7 +127,7 @@ const TableService: FC<Props> = () => {
                                 trigger={
                                     <Button
                                         color='danger'
-                                        isDisabled={data.service.endsWith('api@internal') || data.service?.includes('kalla_proxy_service')}
+                                        isDisabled={data.service.endsWith('api@internal') || data.service?.includes('neuro_proxy_service')}
                                         isIconOnly={true}
                                         size='sm'
                                         variant='light'
@@ -147,7 +147,7 @@ const TableService: FC<Props> = () => {
         }
     }, []);
 
-    const [isEdit, service] = useWatch({control: routers.control, name: ['isEdit', 'service']});
+    const [isEdit, service] = useWatch({ control: routers.control, name: ['isEdit', 'service'] });
 
     return (
         <div className='flex w-full flex-col gap-4'>
@@ -156,7 +156,7 @@ const TableService: FC<Props> = () => {
                 <Input
                     isClearable
                     className='w-full max-w-[230px]'
-                    classNames={{input: 'text-sm'}}
+                    classNames={{ input: 'text-sm' }}
                     labelPlacement='outside'
                     placeholder='Search'
                     radius='full'
@@ -198,13 +198,13 @@ const TableService: FC<Props> = () => {
             >
                 <TableHeader
                     columns={[
-                        {name: 'Router Name', id: 'routerName'},
-                        {name: 'Rule', id: 'rule'},
-                        {name: 'Entry Points', id: 'entryPoints'},
-                        {name: 'Middlewares', id: 'middlewares'},
-                        {name: 'Service', id: 'service'},
-                        {name: 'Status', id: 'status'},
-                        {name: 'Action', id: 'action'},
+                        { name: 'Router Name', id: 'routerName' },
+                        { name: 'Rule', id: 'rule' },
+                        { name: 'Entry Points', id: 'entryPoints' },
+                        { name: 'Middlewares', id: 'middlewares' },
+                        { name: 'Service', id: 'service' },
+                        { name: 'Status', id: 'status' },
+                        { name: 'Action', id: 'action' },
                     ]}
                 >
                     {(column) => (
@@ -219,7 +219,7 @@ const TableService: FC<Props> = () => {
                 </TableHeader>
                 <TableBody
                     emptyContent={'No rows to display.'}
-                    items={routers.list.items as (IRouter & {name: string})[]}
+                    items={routers.list.items as (IRouter & { name: string })[]}
                     loadingContent={<Loading />}
                     loadingState={routers.list.loadingState}
                 >
@@ -236,7 +236,7 @@ const TableService: FC<Props> = () => {
                         limit={15}
                         meta={routers.meta}
                         onChange={(page) => {
-                            routers.list.sort({column: `${page}`, direction: `ascending`});
+                            routers.list.sort({ column: `${page}`, direction: `ascending` });
                         }}
                     />
                 </div>
@@ -260,7 +260,7 @@ const TableService: FC<Props> = () => {
                                         <Controller
                                             control={routers.control}
                                             name='name'
-                                            render={({field, fieldState}) => (
+                                            render={({ field, fieldState }) => (
                                                 <Input
                                                     {...field}
                                                     description='Note: Router name must be unique, and no space allowed.'
@@ -273,13 +273,13 @@ const TableService: FC<Props> = () => {
                                                     value={field.value.replace(/ /g, '_')}
                                                 />
                                             )}
-                                            rules={{required: 'Router name is required', validate: (value) => value.trim().length > 0}}
+                                            rules={{ required: 'Router name is required', validate: (value) => value.trim().length > 0 }}
                                         />
 
                                         <Controller
                                             control={routers.control}
                                             name='rule'
-                                            render={({field, fieldState}) => (
+                                            render={({ field, fieldState }) => (
                                                 <Input
                                                     {...field}
                                                     description={
@@ -302,13 +302,13 @@ const TableService: FC<Props> = () => {
                                                     value={field.value}
                                                 />
                                             )}
-                                            rules={{required: 'Rule is required', validate: (value) => value.trim().length > 0}}
+                                            rules={{ required: 'Rule is required', validate: (value) => value.trim().length > 0 }}
                                         />
 
                                         <Controller
                                             control={routers.control}
                                             name='entrypoints'
-                                            render={({field, fieldState}) => {
+                                            render={({ field, fieldState }) => {
                                                 return (
                                                     <Select
                                                         errorMessage={fieldState.error?.message}
@@ -321,7 +321,7 @@ const TableService: FC<Props> = () => {
                                                             field.onChange(Array.from(keys));
                                                         }}
                                                     >
-                                                        {(entryPoints.list.items as {name: string}[]).map((entryPoint) => (
+                                                        {(entryPoints.list.items as { name: string }[]).map((entryPoint) => (
                                                             <SelectItem key={entryPoint.name}>{entryPoint.name}</SelectItem>
                                                         ))}
                                                     </Select>
@@ -332,7 +332,7 @@ const TableService: FC<Props> = () => {
                                         <Controller
                                             control={routers.control}
                                             name='middlewares'
-                                            render={({field, fieldState}) => {
+                                            render={({ field, fieldState }) => {
                                                 return (
                                                     <Select
                                                         errorMessage={fieldState.error?.message}
@@ -345,7 +345,7 @@ const TableService: FC<Props> = () => {
                                                             field.onChange(Array.from(keys));
                                                         }}
                                                     >
-                                                        {(middlewares.list.items as {name: string}[]).map((middleware) => (
+                                                        {(middlewares.list.items as { name: string }[]).map((middleware) => (
                                                             <SelectItem key={`${middleware.name}@file`}>{middleware.name}</SelectItem>
                                                         ))}
                                                     </Select>
@@ -356,7 +356,7 @@ const TableService: FC<Props> = () => {
                                         <Controller
                                             control={routers.control}
                                             name='service'
-                                            render={({field, fieldState}) => (
+                                            render={({ field, fieldState }) => (
                                                 <Autocomplete
                                                     ref={field.ref}
                                                     errorMessage={fieldState.error?.message}
@@ -371,12 +371,12 @@ const TableService: FC<Props> = () => {
                                                     onInputChange={services.list.setFilterText}
                                                     onSelectionChange={field.onChange}
                                                 >
-                                                    {(services.list.items as {name: string}[]).map((service) => (
+                                                    {(services.list.items as { name: string }[]).map((service) => (
                                                         <AutocompleteItem key={service.name}>{service.name}</AutocompleteItem>
                                                     ))}
                                                 </Autocomplete>
                                             )}
-                                            rules={{required: 'Serivce is required'}}
+                                            rules={{ required: 'Serivce is required' }}
                                         />
                                     </div>
                                 </ModalBody>

@@ -1,13 +1,13 @@
 import NextAuth from 'next-auth';
-import {NextResponse} from 'next/server';
+import { NextResponse } from 'next/server';
 
 import authConfig from '@/auth.config';
-import {ROOT} from '@/libs/routes.lib';
+import { ROOT } from '@/libs/routes.lib';
 
-const {auth} = NextAuth(authConfig);
+const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
-    const {nextUrl} = req;
+    const { nextUrl } = req;
 
     const isAuthenticated = !!req.auth;
 

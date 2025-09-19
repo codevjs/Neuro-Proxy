@@ -1,10 +1,10 @@
 'use server';
 
-import {ForbiddenError} from '@casl/ability';
+import { ForbiddenError } from '@casl/ability';
 
 import container from '@/server-container';
-import {checkAbility} from '@/libs/casl-ability.lib';
-import {TreafikLogsRepository} from '@/repositories/file/logs/logs.file';
+import { checkAbility } from '@/libs/casl-ability.lib';
+import { TreafikLogsRepository } from '@/repositories/file/logs/logs.file';
 
 const treafikLogsRepository = container.resolve(TreafikLogsRepository);
 
@@ -17,10 +17,10 @@ export const getAllLogsAction = async (search?: string) => {
         return {
             success: true,
             data: result
-                .map((log) => ({...log, time: new Date(log.time)}))
-                // Filter out internal kalla-proxy service logs
+                .map((log) => ({ ...log, time: new Date(log.time) }))
+                // Filter out internal neuro-proxy service logs
                 .filter((log) => {
-                    const isInternalService = log.ServiceName === 'kalla-proxy-service@file';
+                    const isInternalService = log.ServiceName === 'neuro-proxy-service@file';
                     const isLocalhost = log.ServiceURL === 'http://localhost:3000';
 
                     return !isInternalService && !isLocalhost;

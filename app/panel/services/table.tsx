@@ -1,36 +1,36 @@
 'use client';
 
-import {Input} from '@heroui/input';
-import {FC, useCallback, useState, useEffect} from 'react';
-import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
-import {Chip} from '@heroui/chip';
-import {Container, Cpu, Route, Activity, WifiOff, Wifi, RefreshCw} from 'lucide-react';
-import {Button} from '@heroui/button';
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure} from '@heroui/modal';
-import {Controller, useForm} from 'react-hook-form';
-import {Input as HeroInput} from '@heroui/input';
-import {Select, SelectItem} from '@heroui/select';
+import { Input } from '@heroui/input';
+import { FC, useCallback, useState, useEffect } from 'react';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table';
+import { Chip } from '@heroui/chip';
+import { Container, Cpu, Route, Activity, WifiOff, Wifi, RefreshCw } from 'lucide-react';
+import { Button } from '@heroui/button';
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@heroui/modal';
+import { Controller, useForm } from 'react-hook-form';
+import { Input as HeroInput } from '@heroui/input';
+import { Select, SelectItem } from '@heroui/select';
 
-import {createRouterAction} from '../routers/_action/action';
+import { createRouterAction } from '../routers/_action/action';
 import useMiddlewares from '../routers/_hook/middleware.hook';
 import useEntryPoint from '../routers/_hook/entrypoint.hook';
 
 import useServices from './_hook/service.hook';
 
-import {Can} from '@/contexts/casl.context';
-import {toastError, toastSuccess} from '@/helpers/toast.helper';
+import { Can } from '@/contexts/casl.context';
+import { toastError, toastSuccess } from '@/helpers/toast.helper';
 import Loading from '@/components/loading';
-import {ITreafikServiceApi} from '@/repositories/api/traefik/traefik.api.interface';
-import {SearchIcon} from '@/components/icons';
+import { ITreafikServiceApi } from '@/repositories/api/traefik/traefik.api.interface';
+import { SearchIcon } from '@/components/icons';
 import Pagination from '@/components/pagination';
 
-interface Props {}
+interface Props { }
 
 const TableService: FC<Props> = () => {
-    const {list, meta} = useServices();
+    const { list, meta } = useServices();
     const middlewares = useMiddlewares();
     const entryPoints = useEntryPoint();
-    const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
+    const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
     const [selectedService, setSelectedService] = useState<string>('');
     const [autoRefresh, setAutoRefresh] = useState(false);
 
@@ -52,7 +52,7 @@ const TableService: FC<Props> = () => {
         }
     }, [list.items.length, list.loadHealthData]);
 
-    const {control, formState, handleSubmit, reset} = useForm<{
+    const { control, formState, handleSubmit, reset } = useForm<{
         name: string;
         rule: string;
         middlewares: string[];
@@ -67,7 +67,7 @@ const TableService: FC<Props> = () => {
     });
 
     const onSubmit = useCallback(
-        async (data: {name: string; rule: string; middlewares: string[]; entrypoints: string[]}) => {
+        async (data: { name: string; rule: string; middlewares: string[]; entrypoints: string[] }) => {
             try {
                 const result = await createRouterAction(data.name, {
                     rule: data.rule,
@@ -184,7 +184,7 @@ const TableService: FC<Props> = () => {
                             >
                                 <Button
                                     color='primary'
-                                    isDisabled={data.name.includes('kalla_proxy')}
+                                    isDisabled={data.name.includes('neuro_proxy')}
                                     isIconOnly={true}
                                     size='sm'
                                     variant='light'
@@ -213,7 +213,7 @@ const TableService: FC<Props> = () => {
                 <Input
                     isClearable
                     className='w-full max-w-[230px]'
-                    classNames={{input: 'text-sm'}}
+                    classNames={{ input: 'text-sm' }}
                     labelPlacement='outside'
                     placeholder='Search'
                     radius='full'
@@ -255,13 +255,13 @@ const TableService: FC<Props> = () => {
             >
                 <TableHeader
                     columns={[
-                        {name: 'Service Name', id: 'serviceName'},
-                        {name: 'Type', id: 'type'},
-                        {name: 'Provider', id: 'provider'},
-                        {name: 'Status', id: 'status'},
-                        {name: 'Health Check', id: 'health'},
-                        {name: 'Server Status', id: 'serverStatus'},
-                        {name: 'Action', id: 'action'},
+                        { name: 'Service Name', id: 'serviceName' },
+                        { name: 'Type', id: 'type' },
+                        { name: 'Provider', id: 'provider' },
+                        { name: 'Status', id: 'status' },
+                        { name: 'Health Check', id: 'health' },
+                        { name: 'Server Status', id: 'serverStatus' },
+                        { name: 'Action', id: 'action' },
                     ]}
                 >
                     {(column) => (
@@ -293,7 +293,7 @@ const TableService: FC<Props> = () => {
                         limit={15}
                         meta={meta}
                         onChange={(page) => {
-                            list.sort({column: `${page}`, direction: `ascending`});
+                            list.sort({ column: `${page}`, direction: `ascending` });
                         }}
                     />
                 </div>
@@ -317,7 +317,7 @@ const TableService: FC<Props> = () => {
                                         <Controller
                                             control={control}
                                             name='name'
-                                            render={({field, fieldState}) => (
+                                            render={({ field, fieldState }) => (
                                                 <HeroInput
                                                     {...field}
                                                     description='Note: Router name must be unique, and no space allowed.'
@@ -329,13 +329,13 @@ const TableService: FC<Props> = () => {
                                                     value={field.value.replace(/ /g, '_')}
                                                 />
                                             )}
-                                            rules={{required: 'Router name is required', validate: (value) => value.trim().length > 0}}
+                                            rules={{ required: 'Router name is required', validate: (value) => value.trim().length > 0 }}
                                         />
 
                                         <Controller
                                             control={control}
                                             name='rule'
-                                            render={({field, fieldState}) => (
+                                            render={({ field, fieldState }) => (
                                                 <HeroInput
                                                     {...field}
                                                     description={
@@ -358,13 +358,13 @@ const TableService: FC<Props> = () => {
                                                     value={field.value}
                                                 />
                                             )}
-                                            rules={{required: 'Rule is required', validate: (value) => value.trim().length > 0}}
+                                            rules={{ required: 'Rule is required', validate: (value) => value.trim().length > 0 }}
                                         />
 
                                         <Controller
                                             control={control}
                                             name='entrypoints'
-                                            render={({field, fieldState}) => {
+                                            render={({ field, fieldState }) => {
                                                 return (
                                                     <Select
                                                         errorMessage={fieldState.error?.message}
@@ -377,7 +377,7 @@ const TableService: FC<Props> = () => {
                                                             field.onChange(Array.from(keys));
                                                         }}
                                                     >
-                                                        {(entryPoints.list.items as {name: string}[]).map((entryPoint) => (
+                                                        {(entryPoints.list.items as { name: string }[]).map((entryPoint) => (
                                                             <SelectItem key={entryPoint.name}>{entryPoint.name}</SelectItem>
                                                         ))}
                                                     </Select>
@@ -388,7 +388,7 @@ const TableService: FC<Props> = () => {
                                         <Controller
                                             control={control}
                                             name='middlewares'
-                                            render={({field, fieldState}) => {
+                                            render={({ field, fieldState }) => {
                                                 return (
                                                     <Select
                                                         errorMessage={fieldState.error?.message}
@@ -401,7 +401,7 @@ const TableService: FC<Props> = () => {
                                                             field.onChange(Array.from(keys));
                                                         }}
                                                     >
-                                                        {(middlewares.list.items as {name: string}[]).map((middleware) => (
+                                                        {(middlewares.list.items as { name: string }[]).map((middleware) => (
                                                             <SelectItem key={`${middleware.name}@file`}>{middleware.name}</SelectItem>
                                                         ))}
                                                     </Select>

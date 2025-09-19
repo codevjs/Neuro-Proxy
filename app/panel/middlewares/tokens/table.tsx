@@ -1,24 +1,24 @@
 'use client';
 
-import {PlusIcon, Trash2} from 'lucide-react';
-import {Input} from '@heroui/input';
-import {Button} from '@heroui/button';
-import {FC, useCallback} from 'react';
-import {Tooltip} from '@heroui/tooltip';
-import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
-import {Session} from 'next-auth';
-import {Chip} from '@heroui/chip';
-import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from '@heroui/modal';
-import {Controller} from 'react-hook-form';
+import { PlusIcon, Trash2 } from 'lucide-react';
+import { Input } from '@heroui/input';
+import { Button } from '@heroui/button';
+import { FC, useCallback } from 'react';
+import { Tooltip } from '@heroui/tooltip';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table';
+import { Session } from 'next-auth';
+import { Chip } from '@heroui/chip';
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@heroui/modal';
+import { Controller } from 'react-hook-form';
 import Link from 'next/link';
 
 import useTokens from './_hook/tokens.hook';
 
-import {IPluginMiddleware} from '@/repositories/file/traefik/treafik.file.interface';
+import { IPluginMiddleware } from '@/repositories/file/traefik/treafik.file.interface';
 import AlertDialog from '@/components/alert-dialog';
 import Loading from '@/components/loading';
-import {Can} from '@/contexts/casl.context';
-import {SearchIcon} from '@/components/icons';
+import { Can } from '@/contexts/casl.context';
+import { SearchIcon } from '@/components/icons';
 import Pagination from '@/components/pagination';
 
 interface Props {
@@ -26,9 +26,9 @@ interface Props {
 }
 
 const TableMiddleware: FC<Props> = () => {
-    const {list, meta, control, formState, isOpen, handleSubmit, reset, onOpen, onOpenChange, onSubmit, onDelete} = useTokens();
+    const { list, meta, control, formState, isOpen, handleSubmit, reset, onOpen, onOpenChange, onSubmit, onDelete } = useTokens();
 
-    const renderCell = useCallback((data: IPluginMiddleware & {name: string}, columnKey: React.Key): React.ReactElement => {
+    const renderCell = useCallback((data: IPluginMiddleware & { name: string }, columnKey: React.Key): React.ReactElement => {
         switch (columnKey) {
             case 'middlewareName':
                 return (
@@ -77,7 +77,7 @@ const TableMiddleware: FC<Props> = () => {
                             trigger={
                                 <Button
                                     color='danger'
-                                    isDisabled={data.name?.includes('kalla_proxy')}
+                                    isDisabled={data.name?.includes('neuro_proxy')}
                                     isIconOnly={true}
                                     size='sm'
                                     variant='light'
@@ -103,7 +103,7 @@ const TableMiddleware: FC<Props> = () => {
                 <Input
                     isClearable
                     className='w-full max-w-[230px]'
-                    classNames={{input: 'text-sm'}}
+                    classNames={{ input: 'text-sm' }}
                     labelPlacement='outside'
                     placeholder='Search'
                     radius='full'
@@ -145,11 +145,11 @@ const TableMiddleware: FC<Props> = () => {
             >
                 <TableHeader
                     columns={[
-                        {name: 'Middleware Name', id: 'middlewareName'},
-                        {name: 'Middleware Key', id: 'middlewareKey'},
-                        {name: 'Tokens', id: 'token'},
-                        {name: 'Whitelist IP', id: 'ip'},
-                        {name: 'Action', id: 'action'},
+                        { name: 'Middleware Name', id: 'middlewareName' },
+                        { name: 'Middleware Key', id: 'middlewareKey' },
+                        { name: 'Tokens', id: 'token' },
+                        { name: 'Whitelist IP', id: 'ip' },
+                        { name: 'Action', id: 'action' },
                     ]}
                 >
                     {(column) => (
@@ -164,7 +164,7 @@ const TableMiddleware: FC<Props> = () => {
                 </TableHeader>
                 <TableBody
                     emptyContent={'No rows to display.'}
-                    items={list.items as (IPluginMiddleware & {name: string})[]}
+                    items={list.items as (IPluginMiddleware & { name: string })[]}
                     loadingContent={<Loading />}
                     loadingState={list.loadingState}
                 >
@@ -181,7 +181,7 @@ const TableMiddleware: FC<Props> = () => {
                         limit={15}
                         meta={meta}
                         onChange={(page) => {
-                            list.sort({column: `${page}`, direction: `ascending`});
+                            list.sort({ column: `${page}`, direction: `ascending` });
                         }}
                     />
                 </div>
@@ -205,7 +205,7 @@ const TableMiddleware: FC<Props> = () => {
                                         <Controller
                                             control={control}
                                             name='name'
-                                            render={({field, fieldState}) => (
+                                            render={({ field, fieldState }) => (
                                                 <Input
                                                     {...field}
                                                     description="Note: Middleware name must be unique and can't be changed later."
@@ -217,7 +217,7 @@ const TableMiddleware: FC<Props> = () => {
                                                     value={field.value.replace(/ /g, '_')}
                                                 />
                                             )}
-                                            rules={{required: 'Middleware name is required', validate: (value) => value.trim().length > 0}}
+                                            rules={{ required: 'Middleware name is required', validate: (value) => value.trim().length > 0 }}
                                         />
                                     </div>
                                 </ModalBody>

@@ -1,4 +1,4 @@
-import {NextResponse} from 'next/server';
+import { NextResponse } from 'next/server';
 import axios from 'axios';
 
 interface ServiceHealth {
@@ -37,7 +37,7 @@ async function checkServiceHealth(name: string, url: string, provider?: string):
             timeout: 5000,
             validateStatus: () => true, // Accept any status code
             headers: {
-                'User-Agent': 'Kalla-Proxy-Health-Check',
+                'User-Agent': 'Neuro-Proxy-Health-Check',
             },
         });
 
@@ -96,9 +96,9 @@ export async function GET() {
 
         // Add core infrastructure services
         const coreServices = [
-            {name: 'Traefik API', url: 'http://localhost:8080/api/overview', provider: 'infrastructure'},
-            {name: 'Traefik Ping', url: 'http://localhost:8080/ping', provider: 'infrastructure'},
-            {name: 'Dashboard', url: 'http://localhost:3000/api/health', provider: 'infrastructure'},
+            { name: 'Traefik API', url: 'http://localhost:8080/api/overview', provider: 'infrastructure' },
+            { name: 'Traefik Ping', url: 'http://localhost:8080/ping', provider: 'infrastructure' },
+            { name: 'Dashboard', url: 'http://localhost:3000/api/health', provider: 'infrastructure' },
         ];
 
         // Combine all services
@@ -138,7 +138,7 @@ export async function GET() {
                 message: 'Failed to perform health check',
                 timestamp: new Date().toISOString(),
             },
-            {status: 500}
+            { status: 500 }
         );
     }
 }

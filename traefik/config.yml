@@ -1,19 +1,19 @@
 http:
   routers:
-    kalla_proxy_dashboard:
+    neuro_proxy_dashboard:
       rule: PathPrefix(`/panel`)
-      service: kalla-proxy-service
+      service: neuro-proxy-service
       entryPoints:
         - web
-    kalla_proxy_static:
+    neuro_proxy_static:
       rule: PathPrefix(`/_next`)
-      service: kalla-proxy-service
+      service: neuro-proxy-service
       entryPoints:
         - web
-    kalla_proxy_public:
+    neuro_proxy_public:
       rule: PathPrefix(`/logo.svg`) || PathPrefix(`/assets`) || PathPrefix(`/images`)
         || PathPrefix(`/favicon`)
-      service: kalla-proxy-service
+      service: neuro-proxy-service
       entryPoints:
         - web
     didx_integration:
@@ -56,7 +56,7 @@ http:
         - kiu_integration@file
       entryPoints:
         - web
-    customers_kalla:
+    customers_neuro:
       rule: PathPrefix(`/crm`)
       service: app-customer-center@docker
       middlewares:
@@ -91,7 +91,7 @@ http:
       entryPoints:
         - web
   services:
-    kalla-proxy-service:
+    neuro-proxy-service:
       loadBalancer:
         servers:
           - url: http://172.20.0.3:3000

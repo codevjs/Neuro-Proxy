@@ -1,9 +1,9 @@
 'use server';
 
-import {ForbiddenError} from '@casl/ability';
+import { ForbiddenError } from '@casl/ability';
 
 import container from '@/server-container';
-import {TraefikAPIRepository} from '@/repositories/api/traefik/traefik.api';
+import { TraefikAPIRepository } from '@/repositories/api/traefik/traefik.api';
 
 const traefikAPIRepository = container.resolve(TraefikAPIRepository);
 
@@ -61,7 +61,7 @@ export const getAllRouters = async () => {
 
         return {
             success: true,
-            data: data.filter((router) => router.name.endsWith('@file') && !router.name.startsWith('kalla_proxy')),
+            data: data.filter((router) => router.name.endsWith('@file') && !router.name.startsWith('neuro_proxy')),
         };
     } catch (error) {
         console.error(error);

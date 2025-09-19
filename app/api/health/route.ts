@@ -1,8 +1,8 @@
-import {NextResponse} from 'next/server';
+import { NextResponse } from 'next/server';
 
 import container from '@/server-container';
-import {TraefikAPIRepository} from '@/repositories/api/traefik/traefik.api';
-import {DockerApiRepository} from '@/repositories/api/docker/docker.api';
+import { TraefikAPIRepository } from '@/repositories/api/traefik/traefik.api';
+import { DockerApiRepository } from '@/repositories/api/docker/docker.api';
 
 export async function GET() {
     try {
@@ -39,7 +39,7 @@ export async function GET() {
         return NextResponse.json({
             status: overallStatus,
             timestamp: new Date().toISOString(),
-            service: 'kalla-proxy-dashboard',
+            service: 'neuro-proxy-dashboard',
             checks: {
                 traefik: {
                     status: traefikStatus,
@@ -58,10 +58,10 @@ export async function GET() {
             {
                 status: 'unhealthy',
                 timestamp: new Date().toISOString(),
-                service: 'kalla-proxy-dashboard',
+                service: 'neuro-proxy-dashboard',
                 error: error instanceof Error ? error.message : 'Unknown error',
             },
-            {status: 500}
+            { status: 500 }
         );
     }
 }

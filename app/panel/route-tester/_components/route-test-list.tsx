@@ -1,17 +1,17 @@
 'use client';
 
-import {Button} from '@heroui/button';
-import {Card, CardBody} from '@heroui/card';
-import {Table, TableBody, TableCell, TableColumn, TableHeader, TableRow} from '@heroui/table';
-import {Chip} from '@heroui/chip';
-import {useState, useCallback, useEffect} from 'react';
-import {toast} from 'sonner';
-import {Route, Globe, RefreshCw, TestTube, ArrowRight} from 'lucide-react';
-import {useRouter} from '@bprogress/next';
+import { Button } from '@heroui/button';
+import { Card, CardBody } from '@heroui/card';
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/table';
+import { Chip } from '@heroui/chip';
+import { useState, useCallback, useEffect } from 'react';
+import { toast } from 'sonner';
+import { Route, Globe, RefreshCw, TestTube, ArrowRight } from 'lucide-react';
+import { useRouter } from '@bprogress/next';
 
-import {getAllRoutesAction} from '../../scaling/_action/action';
+import { getAllRoutesAction } from '../../scaling/_action/action';
 
-import {Can} from '@/contexts/casl.context';
+import { Can } from '@/contexts/casl.context';
 
 interface RouteInfo {
     name: string;
@@ -34,9 +34,9 @@ export default function RouteTestList() {
             const result = await getAllRoutesAction();
 
             if (result.success) {
-                // Filter out kalla_proxy routes from testing
+                // Filter out neuro_proxy routes from testing
                 const filteredRoutes = (result.data || []).filter(
-                    (route) => !route.name.includes('kalla_proxy') && !route.service.includes('kalla_proxy')
+                    (route) => !route.name.includes('neuro_proxy') && !route.service.includes('neuro_proxy')
                 );
 
                 setRoutes(filteredRoutes);

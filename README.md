@@ -1,6 +1,6 @@
 # 🚀 Neuro Proxy
 
-**Neuro Proxy** (also known as Kalla Proxy) is a comprehensive Docker and Traefik management dashboard built with Next.js 15, providing real-time container monitoring, reverse proxy configuration, and infrastructure scaling capabilities. Featuring a modern teal design system that matches the brand identity.
+**Neuro Proxy** (also known as Neuro Proxy) is a comprehensive Docker and Traefik management dashboard built with Next.js 15, providing real-time container monitoring, reverse proxy configuration, and infrastructure scaling capabilities. Featuring a modern teal design system that matches the brand identity.
 
 ![Neuro Proxy Dashboard](https://img.shields.io/badge/Status-Production%20Ready-19D5A5)
 ![Docker](https://img.shields.io/badge/Docker-Supported-2496ED)
