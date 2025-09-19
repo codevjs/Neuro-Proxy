@@ -1,0 +1,290 @@
+http:
+  routers:
+    kalla_proxy_dashboard:
+      rule: PathPrefix(`/panel`)
+      service: kalla-proxy-service
+      entryPoints:
+        - web
+    kalla_proxy_static:
+      rule: PathPrefix(`/_next`)
+      service: kalla-proxy-service
+      entryPoints:
+        - web
+    kalla_proxy_public:
+      rule: PathPrefix(`/logo.svg`) || PathPrefix(`/assets`) || PathPrefix(`/images`)
+        || PathPrefix(`/favicon`)
+      service: kalla-proxy-service
+      entryPoints:
+        - web
+    didx_integration:
+      rule: PathPrefix(`/didx-integration`)
+      service: integration-didx-integration@docker
+      middlewares:
+        - didx_integration_prefix@file
+        - didx_integration_token@file
+      entryPoints:
+        - web
+    oracle-integration:
+      rule: PathPrefix(`/oracle-integration`)
+      service: services-integrasienterprise-backend-enterprise-integration@docker
+      middlewares:
+        - oracle_integration_prefix@file
+        - oracle_integration_token@file
+      entryPoints:
+        - web
+    ats_integration:
+      rule: PathPrefix(`/ats-integration`)
+      service: bsu-ats-bsu-integration-ats@docker
+      middlewares:
+        - ats_integration_middleware@file
+        - ats_integration_token@file
+      entryPoints:
+        - web
+    service_hk_report:
+      rule: PathPrefix(`/service-hk-report`)
+      service: backend-hk-dms-service@docker
+      middlewares:
+        - dms_service_hk_report_prefix@file
+        - dms_service_hk_report_token@file
+      entryPoints:
+        - web
+    kiu_integration:
+      rule: PathPrefix(`/kiu-integration`)
+      service: backend-kars-integration-dms@docker
+      middlewares:
+        - kiu_integration_prefix@file
+        - kiu_integration@file
+      entryPoints:
+        - web
+    customers_kalla:
+      rule: PathPrefix(`/crm`)
+      service: app-customer-center@docker
+      middlewares:
+        - customer_center_prefix@file
+        - customer_center_whitelist@file
+        - customer_center_token@file
+      entryPoints:
+        - web
+    vpp_integration:
+      rule: PathPrefix(`/vpp-oracle`)
+      service: services-integrasienterprise-backend-enterprise-integration@docker
+      middlewares:
+        - vpp_oracle_prefix@file
+        - vpp_whitelist@file
+        - vpp_oracle_token@file
+      entryPoints:
+        - web
+    hk_dms_sales:
+      rule: PathPrefix(`/hk-dms-sales`)
+      service: hk-integration-hk-integration-taf@docker
+      middlewares:
+        - hk_dms_sales_prefix@file
+        - hk_dms_sales_token@file
+      entryPoints:
+        - web
+    hk_dms_trust:
+      rule: PathPrefix(`/hk-dms-trust`)
+      service: backend-kiu-soa-oracle@docker
+      middlewares:
+        - hk_dms_trust_prefix@file
+        - hk_dms_trust_token@file
+      entryPoints:
+        - web
+  services:
+    kalla-proxy-service:
+      loadBalancer:
+        servers:
+          - url: http://172.20.0.3:3000
+  middlewares:
+    dms_service_integration_token:
+      plugin:
+        api_token_middleware:
+          authenticationErrorMsg: Access Denied
+          authenticationHeader: "true"
+          authenticationHeaderName: X-API-TOKEN
+          bearerHeader: "true"
+          bearerHeaderName: Authorization
+          permissiveMode: "false"
+          removeHeadersOnSuccess: "true"
+          removeTokenNameOnFailure: "false"
+          timestampUnix: "false"
+          tokens:
+            - SgoX8LQ7pvteoiABjeNIULBal3xoLEsHbcNjGZ1EhhUgJyvzhMMHs6N8J8fv6tit
+    didx_integration_token:
+      plugin:
+        api_token_middleware:
+          authenticationErrorMsg: Access Denied
+          authenticationHeader: "true"
+          authenticationHeaderName: X-API-TOKEN
+          bearerHeader: "true"
+          bearerHeaderName: Authorization
+          permissiveMode: "false"
+          removeHeadersOnSuccess: "true"
+          removeTokenNameOnFailure: "false"
+          timestampUnix: "false"
+          tokens:
+            - CO0lU8En2m8uCAo46Fuljxy54iIQ1dkTy5Q8vHoGMCTKHkZqigD1tzSJcqeYzOCJ
+    didx_integration_prefix:
+      stripprefix:
+        prefixes: /didx-integration
+    oracle_integration_prefix:
+      stripprefix:
+        prefixes: /oracle-integration
+    oracle_integration_token:
+      plugin:
+        api_token_middleware:
+          authenticationErrorMsg: Access Denied
+          authenticationHeader: "true"
+          authenticationHeaderName: X-API-TOKEN
+          bearerHeader: "true"
+          bearerHeaderName: Authorization
+          permissiveMode: "false"
+          removeHeadersOnSuccess: "true"
+          removeTokenNameOnFailure: "false"
+          timestampUnix: "false"
+          tokens:
+            - GNinbBQ4e5aZTWXkkXsHlbw7MYuV4poedeRYcR2EW5B0q6XdpdoiqOfSXeh1pDej
+            - 9Rxg6fXGkLVqPW2jbgpJOsq3BaTguKPzApKCNR9oigpCoZbDTl2cmzE0QeDF4aEM
+            - RVbTQH9F6n31Nk3jYMtbfYHisE6yWdQRFx6Gs3MMTCBlxNecZMzPcVzeBLj1WkGi
+    oracle_ip_whitelist:
+      ipwhitelist:
+        sourcerange:
+          - 10.11.88.2
+        ipstrategy:
+          depth: 1
+    ats_integration_token:
+      plugin:
+        api_token_middleware:
+          authenticationErrorMsg: Access Denied
+          authenticationHeader: "true"
+          authenticationHeaderName: X-API-TOKEN
+          bearerHeader: "true"
+          bearerHeaderName: Authorization
+          permissiveMode: "false"
+          removeHeadersOnSuccess: "true"
+          removeTokenNameOnFailure: "false"
+          timestampUnix: "false"
+          tokens:
+            - GNinbBQ4e5aZTWXkkXsHlbw7MYuV4poedeRYcR2EW5B0q6XdpdoiqOfSXeh1pDej
+    ats_integration_middleware:
+      stripprefix:
+        prefixes: /ats-integration
+    dms_service_hk_report_token:
+      plugin:
+        api_token_middleware:
+          authenticationErrorMsg: Access Denied
+          authenticationHeader: "true"
+          authenticationHeaderName: X-API-TOKEN
+          bearerHeader: "true"
+          bearerHeaderName: Authorization
+          permissiveMode: "false"
+          removeHeadersOnSuccess: "true"
+          removeTokenNameOnFailure: "false"
+          timestampUnix: "false"
+          tokens:
+            - zVPAxfEby4UWgyxhGxPQZ7EY6VwUPj20GfPTyUaPWfGAzshoWC0NbgsOl0eQ7OEp
+    dms_service_hk_report_prefix:
+      stripprefix:
+        prefixes: /service-hk-report
+    kiu_integration_prefix:
+      stripprefix:
+        prefixes: /kiu-integration
+    kiu_integration:
+      plugin:
+        api_token_middleware:
+          authenticationErrorMsg: Access Denied
+          authenticationHeader: "true"
+          authenticationHeaderName: X-API-TOKEN
+          bearerHeader: "true"
+          bearerHeaderName: Authorization
+          permissiveMode: "false"
+          removeHeadersOnSuccess: "true"
+          removeTokenNameOnFailure: "false"
+          timestampUnix: "false"
+          tokens:
+            - Z5DAna4p8pfFsO0Sh0dDCMH7MZCOTTuwQtBa7htJztsFj0TE1mf9RTjWE5jmVzaA
+            - 2ksP3QZDZENNPwIl2AuZdg1OsTosEa1SIVT1GWNuolp4z021TSGt3u1QEoYtJMGp
+          whitelistIPs: []
+    customer_center_prefix:
+      stripprefix:
+        prefixes: /crm
+    customer_center_whitelist:
+      ipwhitelist:
+        sourcerange:
+          - 10.11.88.2
+        ipStrategy:
+          depth: 1
+    vpp_oracle_prefix:
+      stripprefix:
+        prefixes: /vpp-oracle
+    vpp_oracle_token:
+      plugin:
+        api_token_middleware:
+          authenticationErrorMsg: Access Denied
+          authenticationHeader: "true"
+          authenticationHeaderName: X-API-TOKEN
+          bearerHeader: "true"
+          bearerHeaderName: Authorization
+          permissiveMode: "false"
+          removeHeadersOnSuccess: "true"
+          removeTokenNameOnFailure: "false"
+          timestampUnix: "false"
+          tokens:
+            - 44ceXf31ojXJprKau5AqMxFDzrvKK0YMXcHrAX24AtYXZA37BTymXZYWLekT0GRl
+    customer_center_token:
+      plugin:
+        api_token_middleware:
+          authenticationErrorMsg: Access Denied
+          authenticationHeader: "true"
+          authenticationHeaderName: X-API-TOKEN
+          bearerHeader: "true"
+          bearerHeaderName: Authorization
+          permissiveMode: "false"
+          removeHeadersOnSuccess: "true"
+          removeTokenNameOnFailure: "false"
+          timestampUnix: "false"
+          tokens:
+            - ykPsZioOkyzLATaePMiYFxWeOzWkRTwebrRZimjOThVBKDdvqayQGflXuBkoeFwq
+    vpp_whitelist:
+      ipwhitelist:
+        sourcerange:
+          - 127.0.0.1
+          - 125.166.16.73
+        ipStrategy:
+          depth: 1
+    hk_dms_sales_token:
+      plugin:
+        api_token_middleware:
+          authenticationErrorMsg: Access Denied
+          authenticationHeader: "true"
+          authenticationHeaderName: X-API-TOKEN
+          bearerHeader: "true"
+          bearerHeaderName: Authorization
+          permissiveMode: "false"
+          removeHeadersOnSuccess: "true"
+          removeTokenNameOnFailure: "false"
+          timestampUnix: "false"
+          tokens:
+            - 2ksP3QZDZENNPwIl2AuZdg1OsTosEa1SIVT1GWNuolp4z021TSGt3u1QEoYtJMGp
+          whitelistIPs: []
+    hk_dms_sales_prefix:
+      stripprefix:
+        prefixes: /hk-dms-sales
+    hk_dms_trust_token:
+      plugin:
+        api_token_middleware:
+          authenticationErrorMsg: Access Denied
+          authenticationHeader: "true"
+          authenticationHeaderName: X-API-TOKEN
+          bearerHeader: "true"
+          bearerHeaderName: Authorization
+          permissiveMode: "false"
+          removeHeadersOnSuccess: "true"
+          removeTokenNameOnFailure: "false"
+          timestampUnix: "false"
+          tokens:
+            - 7XrCXozfRQUjiap7MmEOSuwWPlHiXjHbgw8E8299nXw2ZXgBjO0QCFKwwP5DBBvL
+          whitelistIPs: []
+    hk_dms_trust_prefix:
+      stripprefix:
+        prefixes: /hk-dms-trust

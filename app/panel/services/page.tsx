@@ -1,0 +1,40 @@
+import {Metadata} from 'next';
+
+import Table from './table';
+
+import {siteConfig} from '@/config/site';
+
+export const metadata: Metadata = {
+    title: {
+        default: 'Treafik Services',
+        template: `%s - ${siteConfig.name}`,
+    },
+    description: siteConfig.description,
+    icons: {
+        icon: '/favicon.ico',
+    },
+};
+
+const Page = async () => {
+    return (
+        <div className='flex h-full w-full flex-col gap-y-6'>
+            <div className='flex flex-col'>
+                <h1 className='text-2xl font-semibold'>Services</h1>
+                <p className='text-sm text-default-500'>
+                    The Services are responsible for configuring how to reach the actual services that will eventually handle the incoming requests.{' '}
+                    <a
+                        href='https://doc.traefik.io/traefik/routing/services/'
+                        rel='noreferrer noopener'
+                        target='_blank'
+                    >
+                        <span className='text-blue-500'>[Docs]</span>
+                    </a>
+                </p>
+            </div>
+
+            <Table />
+        </div>
+    );
+};
+
+export default Page;

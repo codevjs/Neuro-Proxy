@@ -1,0 +1,170 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db/database.db"
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("account")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String?
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  role          Role?     @relation(fields: [roleName], references: [id], onUpdate: Cascade)
+  roleName      String?   @map("role_name")
+  accounts      Account[]
+  sessions      Session[]
+  company       Company?  @relation(fields: [companyId], references: [id])
+  companyId     String?   @map("company_id")
+
+  @@map("user")
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  permission  Json
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  User        User[]
+
+  @@map("role")
+}
+
+model Permission {
+  id          String   @id @default(cuid())
+  group       String
+  name        String
+  description String?
+  subject     String   @unique
+  actions     Json
+  fields      Json?
+  conditions  Json?
+  inverted    Boolean?
+  reason      String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("permission")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_token")
+}
+
+model AccessLog {
+  id String @id @default(cuid())
+
+  @@map("access_log")
+}
+
+model Service {
+  id String @id @default(cuid())
+
+  @@map("service")
+}
+
+model Middleware {
+  id String @id @default(cuid())
+
+  @@map("middleware")
+}
+
+model BasicAuth {
+  id String @id @default(cuid())
+
+  @@map("basic_auth")
+}
+
+model Token {
+  id String @id @default(cuid())
+  token String? @unique
+  name String?
+
+  @@map("token")
+}
+
+model StripPrefix {
+  id String @id @default(cuid())
+
+  @@map("strip_prefix")
+}
+
+model IPWhitelist {
+  id String @id @default(cuid())
+  name String?
+  ip String? @unique
+
+  @@map("ip_whitelist")
+}
+
+model Router {
+  id String @id @default(cuid())
+
+  @@map("router")
+}
+
+model Container {
+  id String @id @default(cuid())
+
+  @@map("container")
+}
+
+model Company {
+  id         String  @id @default(cuid())
+  uid        String  @unique @map("uid")
+  name       String  @unique
+  oracleName String?
+  user       User[]
+
+  @@map("companies")
+}

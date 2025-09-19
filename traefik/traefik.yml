@@ -1,0 +1,113 @@
+# Traefik main configuration file
+# This file configures Traefik proxy for Kalla Integration Dashboard
+
+# API and Dashboard configuration - Internal only
+api:
+  dashboard: true
+  insecure: true  # Allow internal access without TLS
+  debug: false
+
+# Entry Points
+entryPoints:
+  web:
+    address: ":80"
+    # Trust X-Forwarded-* headers from these IPs/ranges
+    forwardedHeaders:
+      # List of trusted IPs or CIDR ranges that can set X-Forwarded-* headers
+      # Add your proxy/load balancer IPs here
+      trustedIPs:
+        - "10.11.5.5/32"      # Specific trusted proxy
+        - "10.11.0.0/16"      # Private network range
+        - "172.16.0.0/12"     # Docker bridge networks
+        - "192.168.0.0/16"    # Private network range
+        - "127.0.0.1/32"      # Localhost
+        - "::1/128"           # IPv6 localhost
+  traefik:
+    address: "127.0.0.1:8080"
+
+# Providers
+providers:
+  # File provider for static configuration
+  file:
+    filename: /etc/traefik/config.yml
+    watch: true
+
+  # Docker provider for automatic service discovery
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: true
+    watch: true
+    network: "bridge"
+    useBindPortIP: true
+
+# Global configuration
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+# Logging - System logs in common format
+log:
+  level: INFO
+  filePath: /app/traefik/traefik.log
+  format: common
+
+# Access logs - JSON format for dashboard parsing
+accessLog:
+  filePath: /app/traefik/access.log
+  format: json
+  fields:
+    defaultMode: keep
+    headers:
+      defaultMode: keep
+      names:
+        # Standard forwarded headers
+        X-Forwarded-For: keep
+        X-Real-IP: keep
+        X-Forwarded-Proto: keep
+        X-Forwarded-Host: keep
+        X-Original-Forwarded-For: keep
+        # CDN specific headers
+        CF-Connecting-IP: keep          # Cloudflare
+        True-Client-IP: keep            # Akamai
+        X-Client-IP: keep
+        X-Cluster-Client-IP: keep
+        # Other useful headers
+        User-Agent: keep
+        Referer: keep
+
+# Metrics (optional)
+metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addServicesLabels: true
+
+# Health check
+ping:
+  entryPoint: traefik
+
+# Plugin configuration
+experimental:
+  plugins:
+    api_token_middleware:
+      moduleName: "github.com/Aetherinox/traefik-api-token-middleware"
+      version: "v0.1.4"
+
+
+# Certificate resolvers (for production HTTPS)
+# certificatesResolvers:
+#   letsencrypt:
+#     acme:
+#       email: admin@example.com
+#       storage: /etc/traefik/acme.json
+#       httpChallenge:
+#         entryPoint: web
+
+# Automatic HTTPS redirect (uncomment for production)
+# entryPoints:
+#   web:
+#     address: ":80"
+#     http:
+#       redirections:
+#         entrypoint:
+#           to: websecure
+#           scheme: https

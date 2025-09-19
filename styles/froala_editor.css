@@ -1,0 +1,137 @@
+
+.fr-toolbar.fr-top {
+    @apply rounded-t-xl;
+}
+
+.fr-toolbar {
+    @apply border border-default-100 bg-default-100 z-0 text-foreground-100 pb-2 pt-8;
+}
+
+.danger .fr-toolbar {
+    @apply !bg-danger-50 !border-danger-50;
+}
+
+.fr-box.fr-basic {
+    @apply rounded-xl bg-default-100;
+}
+
+.danger .fr-box.fr-basic {
+    @apply !bg-danger-50;
+}
+
+.fr-box.fr-basic .fr-wrapper {
+    @apply border  border-t border-default-100 z-0 rounded-b-xl bg-default-100;
+}
+
+.danger .fr-wrapper {
+    @apply !border-danger-50 !bg-danger-50;
+}
+
+.fr-box.fr-basic .fr-element {
+    @apply font-sans text-default-500 dark:text-white bg-default-100 border-t border-t-white dark:border-black rounded-b-xl;
+}
+
+.danger .fr-element {
+    @apply !border-danger-50 !bg-danger-50;
+}
+
+.fr-second-toolbar {
+    @apply border-none;
+}
+
+.fr-toolbar .fr-command.fr-btn,
+.fr-popup .fr-command.fr-btn,
+.fr-modal .fr-command.fr-btn {
+    @apply bg-content1 w-8 h-8 dark:bg-content1 dark:hover:bg-primary flex justify-center items-center shadow;
+}
+
+.fr-toolbar .fr-command.fr-btn.fr-open {
+    @apply shadow-none;
+}
+
+.fr-toolbar .fr-command.fr-btn.fr-dropdown:after,
+.fr-popup .fr-command.fr-btn.fr-dropdown:after,
+.fr-modal .fr-command.fr-btn.fr-dropdown:after {
+    @apply dark:border-t-white top-[15px];
+}
+
+.fr-toolbar .fr-command.fr-btn.fr-dropdown.fr-active:after,
+.fr-popup .fr-command.fr-btn.fr-dropdown.fr-active:after,
+.fr-modal .fr-command.fr-btn.fr-dropdown.fr-active:after {
+    @apply dark:border-b-white;
+}
+
+.fr-command.fr-btn.fr-options.fr-btn-hover,
+.fr-command.fr-btn.fr-options:hover,
+.fr-command.fr-btn.fr-options:focus {
+    @apply dark:border-l-content1
+}
+
+.fr-toolbar .fr-command.fr-btn.fr-dropdown.fr-options {
+    @apply w-3 h-8;   
+}
+
+.fr-command.fr-btn+.fr-dropdown-menu {
+    @apply bg-content1;
+}
+
+.fr-command.fr-btn.fr-active+.fr-dropdown-menu {
+    @apply bg-content1;
+}
+
+.fr-command.fr-btn+.fr-dropdown-menu .fr-dropdown-wrapper .fr-dropdown-content ul.fr-dropdown-list li a {
+    @apply text-default-500 dark:text-white hover:bg-default-100;
+}
+
+.fr-toolbar .fr-more-toolbar.fr-expanded {
+    @apply pt-1
+}
+
+.fr-toolbar .fr-command.fr-btn svg path,
+.fr-popup .fr-command.fr-btn svg path,
+.fr-modal .fr-command.fr-btn svg path {
+    @apply dark:fill-white;
+}
+
+.fr-toolbar .fr-command.fr-btn.fr-open:not(:hover):not(:focus):not(:active) {
+    @apply bg-content1;
+}
+
+.fr-toolbar .fr-command.fr-btn.fr-dropdown.fr-active,
+.fr-popup .fr-command.fr-btn.fr-dropdown.fr-active,
+.fr-modal .fr-command.fr-btn.fr-dropdown.fr-active {
+    @apply bg-default-100 dark:fill-white hover:bg-default-100;
+}
+
+.fr-toolbar .fr-more-toolbar {
+    @apply bg-content1;
+}
+
+.fr-popup .fr-action-buttons button.fr-command {
+    @apply text-white hover:bg-white hover:text-primary bg-primary rounded-md;
+}
+
+.fr-popup .fr-image-upload-layer {
+    @apply border border-dashed border-default-100 hover:border-primary bg-default;
+}
+
+#fr-image-by-url-layer-text-2,
+#fr-image-by-url-layer-text-1 {
+    @apply text-primary rounded border border-default-100 focus:outline-primary;
+}
+
+.fr-toolbar .fr-newline {
+    display: none;
+}
+
+.fr-box a.fr-floating-btn {
+    @apply flex items-center justify-center rounded-full;
+}
+
+.fr-qi-helper a.fr-btn.fr-floating-btn {
+    padding: 10px;
+}
+
+#fr-logo {
+    display: none;
+}

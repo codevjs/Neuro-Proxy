@@ -1,0 +1,16 @@
+packages:
+  - '.'
+
+ignoredBuiltDependencies:
+  - '@heroui/shared-utils'
+  - '@prisma/client'
+  - '@prisma/engines'
+  - '@tsparticles/engine'
+  - bcrypt
+  - cpu-features
+  - prisma
+  - protobufjs
+  - sharp
+  - sqlite3
+  - ssh2
+  - unrs-resolver

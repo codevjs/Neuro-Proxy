@@ -1,0 +1,24 @@
+:root {
+    --map-tiles-filter-dark: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+    --map-tiles-filter-light: brightness(1.2) contrast(1.2) saturate(1.2);
+}
+
+@media (prefers-color-scheme: dark) {
+    .map-dark {
+        filter: var(--map-tiles-filter-dark);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .map-light {
+        filter: var(--map-tiles-filter-light);
+    }
+}
+
+.leaflet-popup-content-wrapper {
+    @apply bg-default-100 p-1 px-0;
+}
+
+.leaflet-popup-tip {
+    @apply bg-default-100;
+}
