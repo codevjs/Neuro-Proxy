@@ -36,7 +36,6 @@ export const {
                         where: {email: credentials.email as string},
                         include: {
                             role: true,
-                            company: true,
                         },
                     });
 
@@ -59,10 +58,10 @@ export const {
                         email: user.email,
                         image: user.image,
                         role: user.role ?? undefined,
-                        company: user.company?.oracleName,
                     };
                 } catch (error) {
-                    return null;
+                    console.error('Auth error:', error);
+                    throw error;
                 }
             },
         }),

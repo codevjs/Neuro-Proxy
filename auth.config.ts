@@ -28,7 +28,6 @@ export default {
                 token.email = user.email;
                 token.picture = user.image;
                 token.emailVerified = (user as AdapterUser).emailVerified ?? null;
-                token.company = user.company;
             }
 
             if (trigger === 'update' && session) {
@@ -45,7 +44,6 @@ export default {
             session.user.image = token.picture;
             session.user.role = token.role;
             session.user.emailVerified = token.emailVerified ?? null;
-            session.user.company = token.company;
 
             return session;
         },

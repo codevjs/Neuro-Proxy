@@ -11,36 +11,35 @@ import {
     Route,
     ServerCog,
     Container,
-    Newspaper,
     Settings,
     TestTube,
 } from 'lucide-react';
-import {Avatar} from '@heroui/avatar';
-import {ScrollShadow} from '@heroui/scroll-shadow';
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem} from '@heroui/navbar';
-import {usePathname, useSearchParams, useSelectedLayoutSegments} from 'next/navigation';
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection} from '@heroui/dropdown';
-import {Button} from '@heroui/button';
-import {Session} from 'next-auth';
-import {FC, useContext, useEffect, useMemo, useState} from 'react';
-import {useRouter} from '@bprogress/next';
-import {toast} from 'sonner';
-import {motion} from 'framer-motion';
-import {Badge} from '@heroui/badge';
+import { Avatar } from '@heroui/avatar';
+import { ScrollShadow } from '@heroui/scroll-shadow';
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/navbar';
+import { usePathname, useSearchParams, useSelectedLayoutSegments } from 'next/navigation';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection } from '@heroui/dropdown';
+import { Button } from '@heroui/button';
+import { Session } from 'next-auth';
+import { FC, useContext, useEffect, useMemo, useState } from 'react';
+import { useRouter } from '@bprogress/next';
+import { toast } from 'sonner';
+import { motion } from 'framer-motion';
+import { Badge } from '@heroui/badge';
 import Link from 'next/link';
 
-import {ThemeSwitch} from './theme-switch';
+import { ThemeSwitch } from './theme-switch';
 import Logo from './logo';
-import {TeafikLogo} from './icons';
+import { TeafikLogo } from './icons';
 
-import {AbilityContext} from '@/contexts/casl.context';
-import {signOutAction} from '@/app/auth/_actions/auth.action';
+import { AbilityContext } from '@/contexts/casl.context';
+import { signOutAction } from '@/app/auth/_actions/auth.action';
 
 interface Props {
     session: Session;
 }
 
-const Sidebar: FC<Props> = ({session}) => {
+const Sidebar: FC<Props> = ({ session }) => {
     const pathname = usePathname();
     const router = useRouter();
     const segments = useSelectedLayoutSegments();
@@ -67,36 +66,6 @@ const Sidebar: FC<Props> = ({session}) => {
                             ),
                             href: '/panel/dashboard',
                             isActive: segments?.includes('dashboard'),
-                        },
-                    ].filter((item) => ability.can('read', item.subject)),
-                },
-                {
-                    title: 'Invoices',
-                    href: '#',
-                    children: [
-                        {
-                            label: 'Invoice AR',
-                            subject: 'Invoice',
-                            icon: (
-                                <Newspaper
-                                    size={20}
-                                    strokeWidth={1}
-                                />
-                            ),
-                            href: '/panel/invoices/invoice-ar',
-                            isActive: segments?.includes('invoice-ar'),
-                        },
-                        {
-                            label: 'Invoice AP',
-                            subject: 'Invoice',
-                            icon: (
-                                <Newspaper
-                                    size={20}
-                                    strokeWidth={1}
-                                />
-                            ),
-                            href: '/panel/invoices/invoice-ap',
-                            isActive: segments?.includes('invoice-ap'),
                         },
                     ].filter((item) => ability.can('read', item.subject)),
                 },
@@ -320,155 +289,157 @@ const Sidebar: FC<Props> = ({session}) => {
     }, [searchParams]);
 
     return (
-        <motion.div
-            animate={{width: open ? '350px' : '115px'}}
-            className='h-full w-[350px] pr-0'
-        >
-            <Navbar
-                classNames={{
-                    base: `relative  flex h-full w-full flex-col overflow-hidden justify-start bg-default-100 rounded-md border-divider p-6 pr-0 pb-2 relative`,
-                    wrapper: 'w-full flex flex-col h-full px-0 justify-start flex-nowrap',
-                    brand: 'flex-grow-0 items-center text-medium box-border flex flex-col w-full px-0 gap-y-8 pr-6 basis-auto',
-                    content: 'w-full h-full flex flex-col justify-between overflow-x-hidden',
-                    item: `relative box-border flex h-[44px] min-h-11 ${open ? 'w-full' : 'w-fit'} cursor-pointer items-center gap-2 rounded-large text-default-500 subpixel-antialiased outline-none tap-highlight-transparent hover:bg-default/40 hover:text-default-foreground hover:transition-colors focus:bg-default/40 data-[focus-visible=true]:z-10 data-[active=true]:text-primary data-[active=true]:font-normal data-[active=true]:bg-default/30 data-[selected=true]:bg-default-100`,
-                }}
-                position='static'
+        <div className='h-full w-[350px] pr-0'>
+            <motion.div
+                animate={{ width: open ? '300px' : '115px' }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                style={{ height: '100%' }}
             >
-                <NavbarBrand>
-                    <div className='w-full rounded-xl bg-content1 p-2'>{open ? <Logo /> : null}</div>
-                    <div className='flex w-full items-center justify-between'>
-                        <div className='flex items-center gap-3'>
-                            <div>
-                                <Avatar
-                                    isBordered
-                                    name={session.user.name}
-                                    size='md'
-                                    src={session.user.image ?? ''}
-                                />
-                            </div>
-                            {open ? (
-                                <div className='flex flex-col'>
-                                    <p className='text-small font-medium text-default-600'>{session.user.name}</p>
-                                    <p className='text-tiny text-default-400'>@{session.user.role?.name}</p>
+                <Navbar
+                    classNames={{
+                        base: `relative  flex h-full w-full flex-col overflow-hidden justify-start bg-default-100 rounded-md border-divider p-6 pr-0 pb-2 relative`,
+                        wrapper: 'w-full flex flex-col h-full px-0 justify-start flex-nowrap',
+                        brand: 'flex-grow-0 items-center text-medium box-border flex flex-col w-full px-0 gap-y-8 pr-6 basis-auto',
+                        content: 'w-full h-full flex flex-col justify-between overflow-x-hidden',
+                        item: `relative box-border flex h-[44px] min-h-11 ${open ? 'w-full' : 'w-fit'} cursor-pointer items-center gap-2 rounded-large text-default-500 subpixel-antialiased outline-none tap-highlight-transparent hover:bg-default/40 hover:text-default-foreground hover:transition-colors focus:bg-default/40 data-[focus-visible=true]:z-10 data-[active=true]:text-primary data-[active=true]:font-normal data-[active=true]:bg-default/30 data-[selected=true]:bg-default-100`,
+                    }}
+                    position='static'
+                >
+                    <NavbarBrand>
+                        <div className='w-full rounded-xl bg-content1 p-2'>{open ? <Logo /> : null}</div>
+                        <div className='flex w-full items-center justify-between'>
+                            <div className='flex items-center gap-3'>
+                                <div>
+                                    <Avatar
+                                        isBordered
+                                        name={session.user.name}
+                                        size='md'
+                                        src={session.user.image ?? ''}
+                                    />
                                 </div>
-                            ) : null}
-                        </div>
-                        <ThemeSwitch />
-                    </div>
-                </NavbarBrand>
-
-                <NavbarContent>
-                    <ScrollShadow className={`flex h-full w-full flex-col ${open ? 'pr-6' : 'overflow-x-hidden pr-2'} py-6`}>
-                        {navbarItems.map((group, index) => (
-                            <div
-                                key={`${group.title}-${index}`}
-                                className='flex flex-col gap-y-1'
-                            >
                                 {open ? (
-                                    <span className='py-2 pl-1 text-tiny text-foreground-500'>{group.title}</span>
-                                ) : index > 0 ? (
-                                    // <div className='py-2'>{/* <Divider /> */}</div>
-                                    <span className='py-2 pl-1 text-tiny text-foreground-500'>{group.title}</span>
+                                    <div className='flex flex-col'>
+                                        <p className='text-small font-medium text-default-600'>{session.user.name}</p>
+                                        <p className='text-tiny text-default-400'>@{session.user.role?.name}</p>
+                                    </div>
                                 ) : null}
-
-                                {group.children.map((item, index) =>
-                                    'children' in item ? (
-                                        (item.children as any[])?.length > 0 ? (
-                                            <Dropdown
-                                                key={index}
-                                                backdrop='blur'
-                                            >
-                                                <NavbarItem
-                                                    className='px-3'
-                                                    isActive={item.isActive}
-                                                >
-                                                    <DropdownTrigger>
-                                                        <Button
-                                                            disableRipple
-                                                            className={`flex w-full min-w-0 items-center justify-between bg-transparent p-0 data-[hover=true]:bg-transparent ${
-                                                                item.isActive ? 'text-primary' : 'text-default-500'
-                                                            }`}
-                                                            endContent={open ? <ChevronsUpDown size={20} /> : undefined}
-                                                            isIconOnly={true}
-                                                            radius='sm'
-                                                            variant='light'
-                                                        >
-                                                            {open ? (
-                                                                <div className='flex items-center gap-2'>
-                                                                    {item.icon}
-                                                                    <span className='text-small'>{item.label}</span>
-                                                                </div>
-                                                            ) : (
-                                                                item.icon
-                                                            )}
-                                                        </Button>
-                                                    </DropdownTrigger>
-                                                </NavbarItem>
-                                                <DropdownMenu
-                                                    itemClasses={{base: 'gap-4'}}
-                                                    variant='faded'
-                                                >
-                                                    <DropdownSection title={item.label}>
-                                                        {(item.children as any[])?.map((child) => (
-                                                            <DropdownItem
-                                                                key={child.href}
-                                                                className={`w-[230px] ${child.isActive ? 'text-primary' : 'text-default-500'}`}
-                                                                classNames={{
-                                                                    description: child.isActive ? 'text-primary' : 'text-default-500',
-                                                                }}
-                                                                description={child.description}
-                                                                href={child.href}
-                                                                startContent={child.icon}
-                                                            >
-                                                                {child.label}
-                                                            </DropdownItem>
-                                                        ))}
-                                                    </DropdownSection>
-                                                </DropdownMenu>
-                                            </Dropdown>
-                                        ) : null
-                                    ) : (
-                                        <Badge
-                                            key={index}
-                                            color='danger'
-                                            content={(item as any).badge}
-                                            isInvisible={(item as any).badge === undefined}
-                                            size='sm'
-                                        >
-                                            <NavbarItem isActive={item.isActive}>
-                                                <Link
-                                                    className={`flex w-full gap-2 px-3 py-1.5`}
-                                                    href={(item as any).isDisable ? '#' : item.href}
-                                                >
-                                                    <div>{item.icon}</div>
-                                                    {open ? <span className='text-small'>{item.label}</span> : null}
-                                                </Link>
-                                            </NavbarItem>
-                                        </Badge>
-                                    )
-                                )}
                             </div>
-                        ))}
-                    </ScrollShadow>
-
-                    <div className='flex w-full flex-col gap-y-1 pr-6'>
-                        <NavbarItem
-                            className='px-3 text-danger hover:bg-danger-100 hover:text-danger'
-                            onClick={signOut}
-                        >
-                            <div>
-                                <CircleMinus size={20} />
-                            </div>
-                            {open ? <span className='flex-1 truncate text-small font-medium'>Sign Out</span> : null}
-                        </NavbarItem>
-
-                        <div className='px-3'>
-                            <TeafikLogo />
+                            <ThemeSwitch />
                         </div>
-                    </div>
-                </NavbarContent>
-            </Navbar>
-        </motion.div>
+                    </NavbarBrand>
+
+                    <NavbarContent>
+                        <ScrollShadow className={`flex h-full w-full flex-col ${open ? 'pr-6' : 'overflow-x-hidden pr-2'} py-6`}>
+                            {navbarItems.map((group, index) => (
+                                <div
+                                    key={`${group.title}-${index}`}
+                                    className='flex flex-col gap-y-1'
+                                >
+                                    {open ? (
+                                        <span className='py-2 pl-1 text-tiny text-foreground-500'>{group.title}</span>
+                                    ) : index > 0 ? (
+                                        // <div className='py-2'>{/* <Divider /> */}</div>
+                                        <span className='py-2 pl-1 text-tiny text-foreground-500'>{group.title}</span>
+                                    ) : null}
+
+                                    {group.children.map((item, index) =>
+                                        'children' in item ? (
+                                            (item.children as any[])?.length > 0 ? (
+                                                <Dropdown
+                                                    key={index}
+                                                    backdrop='blur'
+                                                >
+                                                    <NavbarItem
+                                                        className='px-3'
+                                                        isActive={item.isActive}
+                                                    >
+                                                        <DropdownTrigger>
+                                                            <Button
+                                                                disableRipple
+                                                                className={`flex w-full min-w-0 items-center justify-between bg-transparent p-0 data-[hover=true]:bg-transparent ${item.isActive ? 'text-primary' : 'text-default-500'
+                                                                    }`}
+                                                                endContent={open ? <ChevronsUpDown size={20} /> : undefined}
+                                                                isIconOnly={true}
+                                                                radius='sm'
+                                                                variant='light'
+                                                            >
+                                                                {open ? (
+                                                                    <div className='flex items-center gap-2'>
+                                                                        {item.icon}
+                                                                        <span className='text-small'>{item.label}</span>
+                                                                    </div>
+                                                                ) : (
+                                                                    item.icon
+                                                                )}
+                                                            </Button>
+                                                        </DropdownTrigger>
+                                                    </NavbarItem>
+                                                    <DropdownMenu
+                                                        itemClasses={{ base: 'gap-4' }}
+                                                        variant='faded'
+                                                    >
+                                                        <DropdownSection title={item.label}>
+                                                            {(item.children as any[])?.map((child) => (
+                                                                <DropdownItem
+                                                                    key={child.href}
+                                                                    className={`w-[230px] ${child.isActive ? 'text-primary' : 'text-default-500'}`}
+                                                                    classNames={{
+                                                                        description: child.isActive ? 'text-primary' : 'text-default-500',
+                                                                    }}
+                                                                    description={child.description}
+                                                                    href={child.href}
+                                                                    startContent={child.icon}
+                                                                >
+                                                                    {child.label}
+                                                                </DropdownItem>
+                                                            ))}
+                                                        </DropdownSection>
+                                                    </DropdownMenu>
+                                                </Dropdown>
+                                            ) : null
+                                        ) : (
+                                            <Badge
+                                                key={index}
+                                                color='danger'
+                                                content={(item as any).badge}
+                                                isInvisible={(item as any).badge === undefined}
+                                                size='sm'
+                                            >
+                                                <NavbarItem isActive={item.isActive}>
+                                                    <Link
+                                                        className={`flex w-full gap-2 px-3 py-1.5`}
+                                                        href={(item as any).isDisable ? '#' : item.href}
+                                                    >
+                                                        <div>{item.icon}</div>
+                                                        {open ? <span className='text-small'>{item.label}</span> : null}
+                                                    </Link>
+                                                </NavbarItem>
+                                            </Badge>
+                                        )
+                                    )}
+                                </div>
+                            ))}
+                        </ScrollShadow>
+
+                        <div className='flex w-full flex-col gap-y-1 pr-6'>
+                            <NavbarItem
+                                className='px-3 text-danger hover:bg-danger-100 hover:text-danger'
+                                onClick={signOut}
+                            >
+                                <div>
+                                    <CircleMinus size={20} />
+                                </div>
+                                {open ? <span className='flex-1 truncate text-small font-medium'>Sign Out</span> : null}
+                            </NavbarItem>
+
+                            <div className='px-3'>
+                                <TeafikLogo />
+                            </div>
+                        </div>
+                    </NavbarContent>
+                </Navbar>
+            </motion.div>
+        </div>
     );
 };
 
