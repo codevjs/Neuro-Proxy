@@ -1,11 +1,17 @@
-# 🚀 Kalla Proxy
+# 🚀 Neuro Proxy
 
-**Kalla Proxy** is a comprehensive Docker and Traefik management dashboard that provides an intuitive web interface for managing your containerized applications, reverse proxy configurations, and infrastructure scaling. Built with modern technologies, it offers real-time monitoring, auto-scaling capabilities, and seamless integration with Docker and Traefik ecosystems.
+**Neuro Proxy** (also known as Kalla Proxy) is a comprehensive Docker and Traefik management dashboard built with Next.js 15, providing real-time container monitoring, reverse proxy configuration, and infrastructure scaling capabilities. Featuring a modern teal design system that matches the brand identity.
 
-![Kalla Proxy Dashboard](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
-![Docker](https://img.shields.io/badge/Docker-Supported-blue)
-![Traefik](https://img.shields.io/badge/Traefik-Integrated-orange)
-![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![Neuro Proxy Dashboard](https://img.shields.io/badge/Status-Production%20Ready-19D5A5)
+![Docker](https://img.shields.io/badge/Docker-Supported-2496ED)
+![Traefik](https://img.shields.io/badge/Traefik-Integrated-F05A28)
+![Next.js](https://img.shields.io/badge/Next.js-15.5.3-000000)
+![React](https://img.shields.io/badge/React-19.1.1-61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6.3-3178C6)
+![Bun](https://img.shields.io/badge/Bun-Runtime-000000)
+![HeroUI](https://img.shields.io/badge/HeroUI-v2-19D5A5)
+
+> **🌟 Key Highlights**: First-time user auto-setup • Teal design system • Real-time monitoring • Auto-scaling • Role-based security
 
 ## ✨ Features
 
@@ -52,29 +58,40 @@
 
 ### 🛠️ **System Features**
 - **Responsive Dashboard**: Mobile-friendly interface with dark/light themes
-- **Real-time Updates**: WebSocket connections for live data
+- **Real-time Updates**: Live container stats and log streaming
 - **Configuration Management**: YAML-based Traefik configuration editor
 - **Log Management**: Centralized logging with filtering and search
 - **Health Monitoring**: System health checks and alerts
+- **First-time Setup**: Automatic superadmin creation on first run
+- **Modern UI**: Teal design system with HeroUI components
 
 ## 🏗️ Architecture
 
 ### **Technology Stack**
-- **Frontend**: Next.js 15 (App Router), React 19, TypeScript
-- **UI Framework**: HeroUI (NextUI v2 fork), Tailwind CSS
-- **Authentication**: NextAuth.js v5 with JWT
-- **Database**: SQLite with Prisma ORM
-- **Container Runtime**: Docker API integration
-- **Reverse Proxy**: Traefik v2/v3 integration
-- **State Management**: React Query, React Hook Form
-- **Authorization**: CASL (isomorphic authorization)
-- **Dependency Injection**: TSyringe
+- **Frontend**: Next.js 15.5.3 (App Router), React 19.1.1, TypeScript 5.6.3
+- **UI Framework**: HeroUI (NextUI v2 fork) with Tailwind CSS and custom teal theme (#19D5A5)
+- **Authentication**: NextAuth.js v5.0.0-beta.25 with JWT and CASL authorization
+- **Database**: SQLite with Prisma ORM 6.16.2 and pagination extension
+- **Runtime**: Bun for package management and development
+- **Container Runtime**: Docker API integration with dockerode
+- **Reverse Proxy**: Traefik API integration
+- **State Management**: TanStack React Query 5.89.0, React Hook Form 7.62.0
+- **Authorization**: CASL 6.7.3 (isomorphic authorization)
+- **Dependency Injection**: TSyringe 4.10.0 with reflect-metadata
 
 ### **Architecture Patterns**
 - **Repository Pattern**: Clean separation of data access layers
-- **Dependency Injection**: Modular and testable code structure
+- **Dependency Injection**: Modular and testable code structure with TSyringe
 - **Server Components**: Next.js App Router with Server Actions
 - **API-First Design**: RESTful APIs with TypeScript interfaces
+- **Multi-tenant**: Company-based resource isolation
+- **Security-First**: CASL authorization with role-based permissions
+
+### **Key Integrations**
+- **Docker Socket**: Direct Docker API access (`/var/run/docker.sock`)
+- **Traefik API**: Dynamic route and service management
+- **Prisma Database**: SQLite with automatic migrations
+- **NextAuth Session**: JWT-based authentication with 24-hour expiration
 
 ## 🚀 Installation
 
@@ -88,8 +105,8 @@
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-repo/kalla-proxy.git
-   cd kalla-proxy
+   git clone https://github.com/codevjs/Neuro-Proxy.git
+   cd Neuro-Proxy
    ```
 
 2. **Configure Environment**
@@ -104,7 +121,9 @@
    ```
 
 4. **Access the Dashboard**
-   - Dashboard: `http://localhost/panel`
+   - Dashboard: `http://localhost:3000/panel/dashboard`
+   - First-time Setup: `http://localhost:3000/auth/register` (creates superadmin)
+   - Authentication: `http://localhost:3000/auth/signin`
    - Traefik Dashboard: `http://localhost:8080` (if enabled)
 
 ### Environment Variables
@@ -136,9 +155,9 @@ NODE_ENV="production"
 version: '3.8'
 
 services:
-  kalla-proxy:
+  neuro-proxy:
     build: .
-    container_name: kalla-proxy
+    container_name: neuro-proxy
     ports:
       - "3000:3000"
     environment:
@@ -236,27 +255,32 @@ The application uses Prisma ORM with SQLite. Key entities:
 
 1. **Clone and Install Dependencies**
    ```bash
-   git clone https://github.com/your-repo/kalla-proxy.git
-   cd kalla-proxy
-   pnpm install
+   git clone https://github.com/codevjs/Neuro-Proxy.git
+   cd Neuro-Proxy
+   bun install
    ```
 
 2. **Database Setup**
    ```bash
-   npx prisma db push    # Create database schema
-   npx prisma db seed    # Seed initial data
+   bun prisma db push    # Create database schema
+   bun run seed          # Seed initial data (optional - auto-created on first use)
    ```
 
 3. **Development Server**
    ```bash
-   pnpm dev             # Start Next.js dev server
-   pnpm dev:server      # Start with custom server (scaling features)
+   bun run dev           # Start Next.js dev server with database setup
+   bun run dev:server    # Start with custom server (scaling features)
    ```
 
 4. **Build for Production**
    ```bash
-   pnpm build           # Build application
-   pnpm start           # Start production server
+   bun run build         # Build application with database setup
+   bun start             # Start production server with database setup
+   ```
+
+5. **Code Quality**
+   ```bash
+   bun run lint          # Run ESLint with auto-fix
    ```
 
 ### Docker Commands
@@ -269,7 +293,7 @@ docker-compose -f docker-compose.dev.yml up -d
 docker-compose up -d
 
 # Logs
-docker-compose logs -f kalla-proxy
+docker-compose logs -f neuro-proxy
 
 # Reset
 docker-compose down -v  # Remove volumes
@@ -349,8 +373,8 @@ docker-compose up -d
    ```bash
    # Reset database
    rm -f prisma/db/database.db
-   npx prisma db push
-   npx prisma db seed
+   bun prisma db push
+   bun run seed  # Optional - superadmin created on first access
    ```
 
 4. **Clipboard Issues on VPS**
@@ -364,7 +388,7 @@ docker-compose up -d
    ```yaml
    # docker-compose.yml
    services:
-     kalla-proxy:
+     neuro-proxy:
        deploy:
          resources:
            limits:
@@ -376,7 +400,7 @@ docker-compose up -d
 2. **Database Optimization**
    ```bash
    # Regular database maintenance
-   npx prisma db push --force-reset  # Development only
+   bun prisma db push --force-reset  # Development only
    ```
 
 ## 🤝 Contributing
@@ -388,8 +412,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
 3. Make your changes
-4. Run tests: `pnpm test`
-5. Commit changes: `git commit -m 'feat: add amazing feature'`
+4. Run linting: `bun run lint`
+5. Commit changes: `git commit -m 'feat: add amazing feature'` (conventional commits)
 6. Push to branch: `git push origin feature/amazing-feature`
 7. Open a Pull Request
 
@@ -407,11 +431,21 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: [Full Documentation](https://docs.kallaproxy.com)
-- **Issues**: [GitHub Issues](https://github.com/your-repo/kalla-proxy/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-repo/kalla-proxy/discussions)
-- **Email**: support@kallaproxy.com
+- **Issues**: [GitHub Issues](https://github.com/codevjs/Neuro-Proxy/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/codevjs/Neuro-Proxy/discussions)
+- **Repository**: [GitHub Repository](https://github.com/codevjs/Neuro-Proxy)
+
+## 🎨 Design System
+
+Neuro Proxy features a modern design system with:
+- **Primary Color**: Teal (`#19D5A5`) matching the brand logo
+- **UI Framework**: HeroUI with Tailwind CSS
+- **Theme Support**: Dark/Light mode with automatic detection
+- **Responsive Design**: Mobile-first approach with tablet and desktop breakpoints
+- **Typography**: Clean, modern font stack with proper hierarchy
 
 ---
 
-**Made with ❤️ by the Kalla Proxy Team**
+**Made with ❤️ by the Neuro Proxy Team**
+
+*Built with Claude Code assistance* 🤖
